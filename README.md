@@ -1,5 +1,17 @@
 # Getting Started with Create React App
 
+cmd + shift + p | for es7 snippets
+ctrl + tilde    | for terminal
+cd first        | to change directories to project file
+code .          | to open instance of visual studio to run file
+
+
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
