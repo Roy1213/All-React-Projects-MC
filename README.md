@@ -4,7 +4,7 @@ cmd + shift + p | for es7 snippets
 ctrl + tilde    | for terminal
 cd first        | to change directories to project file
 code .          | to open instance of visual studio to run file
-
+npm start       | to launch localhost:3000 server
 
 
 
