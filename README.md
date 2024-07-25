@@ -1,12 +1,13 @@
 # Getting Started with Create React App
 
-cmd + shift + p     | for es7 snippets (not working)
-ctrl + tilde        | for terminal
-cd first            | to change directories to project file
-code .              | to open instance of visual studio to run file
-npm start           | to launch localhost:3000 server
-ctrl + c            | to terminate localhost:3000 server
-shift + option + F  | to format file's code
+cmd + shift + p           | for es7 snippets (not working)
+ctrl + tilde              | for terminal
+cd first                  | to change directories to project file
+code .                    | to open instance of visual studio to run file
+npm start                 | to launch localhost:3000 server
+ctrl + c                  | to terminate localhost:3000 server
+shift + option + F        | to format file's code
+alt + shift + down arrow  | to duplicated highlighted code below code
 
 
 
