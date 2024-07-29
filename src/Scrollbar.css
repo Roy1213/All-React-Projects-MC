@@ -1,7 +1,10 @@
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 7px;
 }
+/* *:hover::-webkit-scrollbar {
+    width: 10px !important;
+} */
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background:linear-gradient(rgb(134, 38, 51), white)
+    background:rgb(134, 38, 51)
 }

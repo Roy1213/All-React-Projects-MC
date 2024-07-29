@@ -1,6 +1,3 @@
-import Open from './Open';
-import OpenContent from './OpenContent';
-import Closed from './Closed';
 import { useState } from 'react';
 import './Scrollbar.css';
 
@@ -31,6 +28,15 @@ const Remote = () => {
             "15.0 %",
             "180 F",
             "180 F"
+        ]
+        const textBoxOrMenu = [
+            false,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true
         ]
         const rows = []
         for (let i = 0; i < 7; i++) {
