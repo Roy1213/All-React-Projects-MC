@@ -25,7 +25,7 @@ function App() {
       {/* can also use self-closing tags */}
       {/* <Footer /> */}
 
-      {generateEmptySpace(5)}
+      {generateEmptySpace(2)}
       <Remote/>
 
 

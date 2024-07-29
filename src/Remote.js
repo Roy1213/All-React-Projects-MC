@@ -86,7 +86,7 @@ const Remote = () => {
                     justifyContent: 'space-between',
                 }}>
                     <h1 style={{ color: 'white' }}>Remote Control</h1>
-                    <h1 style={{ color: `rgb(35, 35, 35)` }}>_</h1>
+                    {/*<h1 style={{ color: `rgb(35, 35, 35)` }}>_</h1>*/}
                     {isOpen ? <h1 style={{ color: 'white' }}>⊖</h1> : <h1 style={{ color: 'white' }}>⊕</h1>}
                 </div>
             </button>
@@ -101,7 +101,7 @@ const Remote = () => {
                 //opacity: isOpen ? '1' : '0',
                 //vh or vw
                 maxHeight: isOpen ? 365 : 0,
-                transition: isOpen ? 'all ease-out .5' : 'all ease-in .5s',
+                transition: isOpen ? 'all ease-out .35' : 'all ease-in .35s',
                 overflowY: 'auto',
                 overflowX: 'hidden',
                 scrollbarColor: `rgb(134, 38, 51) rgb(35, 35, 35)`
