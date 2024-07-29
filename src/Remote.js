@@ -2,6 +2,7 @@ import Open from './Open';
 import OpenContent from './OpenContent';
 import Closed from './Closed';
 import { useState } from 'react';
+import './Scrollbar.css';
 
 const Remote = () => {
     const [isOpen, setOpen] = useState(false)
@@ -71,8 +72,8 @@ const Remote = () => {
             <button onClick={handleClick} style={{
                 backgroundColor: `rgb(35, 35, 35)`,
                 borderColor: `rgb(35, 35, 35)`,
-                minWidth: '50%',
-                maxWidth: '50%',
+                minWidth: 350,
+                maxWidth: 350,
                 overflowX: 'hidden',
                 paddingLeft: 30,
                 paddingRight: 30,
@@ -93,18 +94,20 @@ const Remote = () => {
             <div style={{
                 color: 'white',
                 backgroundColor: `rgb(35, 35, 35)`,
-                maxWidth: '50%',
-                minWidth: '50%',
+                maxWidth: 350,
+                minWidth: 350,
                 margin: '0 auto',
                 padding: 0,
                 //paddingBottom: 10,
                 //opacity: isOpen ? '1' : '0',
                 //vh or vw
-                maxHeight: isOpen ? 365 : 0,
+                maxHeight: isOpen ? 360 : 0,
                 transition: isOpen ? 'all ease-out .35' : 'all ease-in .35s',
                 overflowY: 'auto',
                 overflowX: 'hidden',
-                scrollbarColor: `rgb(134, 38, 51) rgb(35, 35, 35)`
+
+                //scrollbarColor: `rgb(134, 38, 51) rgb(35, 35, 35)`
+                
                 //visibility: isOpen ? 'visible' : 'hidden'
             }}>
 
@@ -124,8 +127,8 @@ const Remote = () => {
                 borderBottomRightRadius: '10px',
                 backgroundColor: `rgb(35, 35, 35)`,
                 borderColor: `rgb(35, 35, 35)`,
-                minWidth: '50%',
-                maxWidth: '50%',
+                minWidth: 350,
+                maxWidth: 350,
                 margin: '0 auto'
             }}>
                 <br></br>
