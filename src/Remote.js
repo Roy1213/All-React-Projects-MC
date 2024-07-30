@@ -283,7 +283,7 @@ function BasicMenu() {
             'aria-labelledby': 'basic-button',
           }}
           style={{
-            backgroundColor: `rgb(134, 38, 51)`
+            
           }}
           className='menu'
         >
