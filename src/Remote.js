@@ -8,10 +8,13 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import './Scrollbar.css';
 import { colors } from '@mui/material';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const Remote = () => {
     const [isOpen, setOpen] = useState(false)
     const [open, setModalIsOpen] = useState(false)
+    const [open2, setDropdownIsOpen] = useState(false)
     const [modalType, setModalType] = useState(false)
     const [currentText, setCurrentText] = useState("")
     const [currentValueText, setCurrentValueText] = useState("")
@@ -47,9 +50,6 @@ const Remote = () => {
     }
     const handleClose = () => {
         setModalIsOpen(false)
-    }
-    const click = () => {
-        console.log('You clicked it')
     }
 
     const text1 = [
@@ -215,9 +215,11 @@ const Remote = () => {
                             }}>
                                 <p>{newText}</p>
                                 {modalType ?
-                                <p>hi</p> : <p>{currentValueText}</p>}
+                                    <p>hi</p> :
+                                    <div>
+                                        <BasicMenu/>
+                                    </div>}
                             </div>
-                            
                         </Box>
                     </Fade>
                 </Modal>
@@ -246,3 +248,49 @@ const Remote = () => {
     )
 }
 export default Remote
+
+function BasicMenu() {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+    const style = {
+        color: 'white',
+        backgroundColor: `rgb(134, 38, 51)`
+    }
+  
+    return (
+      <div>
+        <Button
+          id="basic-button"
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          Dashboard
+        </Button>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+          style={{
+            backgroundColor: `rgb(134, 38, 51)`
+          }}
+          className='menu'
+        >
+          <MenuItem onClick={handleClose} style={style}>Profile</MenuItem>
+          <MenuItem onClick={handleClose} style={style}>My account</MenuItem>
+          <MenuItem onClick={handleClose} style={style}>Logout</MenuItem>
+        </Menu>
+      </div>
+    );
+  }
