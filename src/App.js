@@ -3,6 +3,7 @@ import Content from './Content'
 import Footer from './Footer'
 import Remote from './Remote';
 
+
 function App() {
   const generateEmptySpace = (num) => {
     const rows = []

@@ -1,43 +1,105 @@
+import * as React from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import './Scrollbar.css';
+import { colors } from '@mui/material';
 
 const Remote = () => {
     const [isOpen, setOpen] = useState(false)
+    const [open, setModalIsOpen] = useState(false)
+    const [modalType, setModalType] = useState(false)
+    const [currentText, setCurrentText] = useState("")
+    const [currentValueText, setCurrentValueText] = useState("")
+    const [newText, setNewText] = useState("");
+    const [rangeText, setRangeText] = useState("");
+
+    const style = {
+        position: 'absolute',
+        top: '60%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: `rgb(35, 35, 35)`,
+        color: 'white',
+        //border: '2px solid white',
+        boxShadow: 24,
+        pt: 2,
+        px: 4,
+        pb: 3,
+        borderRadius: '10px'
+    };
+
     const handleClick = () => {
         console.log('Clicked')
         setOpen(!isOpen)
     }
+    const handleOpen = (i) => {
+        setModalType(textBoxOrMenu[i])
+        setCurrentText("Current " + text1[i])
+        setCurrentValueText(text2[i])
+        setNewText("New " + text1[i])
+        setModalIsOpen(true)
+    }
+    const handleClose = () => {
+        setModalIsOpen(false)
+    }
     const click = () => {
         console.log('You clicked it')
     }
+
+    const text1 = [
+        "Dryer State:",
+        "Disch Mode:",
+        "Disch Speed SP:",
+        "Mid-Grain SP:",
+        "Disch Moist SP:",
+        "Top Plenum(sp):",
+        "Bot Plenum(sp):"
+    ]
+    const text2 = [
+        "Running",
+        "Manual",
+        "10 %",
+        "120 F",
+        "15.0 %",
+        "180 F",
+        "180 F"
+    ]
+    const textBoxOrMenu = [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+    ]
+    const range = [
+        [],
+        [],
+        [0, 100],
+        [0, 220],
+        [0, 100],
+        [0, 220],
+        [0, 220]
+
+    ]
+    const rangeUnit = [
+        "",
+        "",
+        "%",
+        "F",
+        "%",
+        "F",
+        "F"
+    ]
+
     const generateContent = () => {
-        const text1 = [
-            "Dryer State:",
-            "Disch Mode:",
-            "Disch Speed SP:",
-            "Mid-Grain SP:",
-            "Disch Moist SP:",
-            "Top Plenum(sp):",
-            "Bot Plenum(sp):"
-        ]
-        const text2 = [
-            "Running",
-            "Manual",
-            "10 %",
-            "120 F",
-            "15.0 %",
-            "180 F",
-            "180 F"
-        ]
-        const textBoxOrMenu = [
-            false,
-            false,
-            true,
-            true,
-            true,
-            true,
-            true
-        ]
         const rows = []
         for (let i = 0; i < 7; i++) {
             rows.push(
@@ -60,13 +122,13 @@ const Remote = () => {
                         }}>{text2[i]}</p>
                     </div>
 
-                    <button onClick={click} style={{
-                        backgroundColor: 'rgb(134, 38, 51)',
+                    <Button onClick={() => handleOpen(i)} style={{
+                        backgroundColor: `rgb(134, 38, 51)`,
                         borderWidth: 1,
                         color: 'white',
                         maxHeight: 40,
                         borderRadius: 10
-                    }}>Change...</button>
+                    }}>Change...</Button>
                 </div>)
         }
         return <div>{rows}</div>
@@ -113,13 +175,54 @@ const Remote = () => {
                 overflowX: 'hidden',
 
                 //scrollbarColor: `rgb(134, 38, 51) rgb(35, 35, 35)`
-                
+
                 //visibility: isOpen ? 'visible' : 'hidden'
             }}>
 
                 {/*<a href='https://www.google.com/' style={{ color: 'white' }}>Click this link</a>*/}
-                <br/>
+                <br />
                 {generateContent()}
+
+                <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    slots={{ backdrop: Backdrop }}
+                    slotProps={{
+                        backdrop: {
+                            timeout: 500,
+                        },
+                    }}
+                >
+                    <Fade in={open}>
+                        <Box sx={style}>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                paddingLeft: 10,
+                                paddingRight: 10
+                            }}>
+                                <p>{currentText}</p>
+                                <p>{currentValueText}</p>
+                            </div>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                paddingLeft: 10,
+                                paddingRight: 10
+                            }}>
+                                <p>{newText}</p>
+                                {modalType ?
+                                <p>hi</p> : <p>{currentValueText}</p>}
+                            </div>
+                            
+                        </Box>
+                    </Fade>
+                </Modal>
+
+
                 <p style={{
                     color: 'yellow',
                     textAlign: 'left',
