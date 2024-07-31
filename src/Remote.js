@@ -10,6 +10,20 @@ import './Scrollbar.css';
 import { colors } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+//import * as React from 'react';
+import { styled, alpha } from '@mui/material/styles';
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+//import Button from '@mui/material/Button';
+//import Menu, { MenuProps } from '@mui/material/Menu';
+//import MenuItem from '@mui/material/MenuItem';
+// import EditIcon from '@mui/icons-material/Edit';
+// import Divider from '@mui/material/Divider';
+// import ArchiveIcon from '@mui/icons-material/Archive';
+// import FileCopyIcon from '@mui/icons-material/FileCopy';
+// import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const Remote = () => {
     const [isOpen, setOpen] = useState(false)
@@ -217,7 +231,7 @@ const Remote = () => {
                                 {modalType ?
                                     <p>hi</p> :
                                     <div>
-                                        <BasicMenu/>
+                                        <StyledSelect />
                                     </div>}
                             </div>
                         </Box>
@@ -249,48 +263,166 @@ const Remote = () => {
 }
 export default Remote
 
-function BasicMenu() {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
+// const useStyles = makeStyles({
+
+// })
+
+const color = 'rgb(134, 38, 51)'
+
+function StyledSelect() {
+    const [age, setAge] = React.useState("");
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
     };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
-    const style = {
-        color: 'white',
-        backgroundColor: `rgb(134, 38, 51)`
-    }
-  
+
+    //const classes = useStyles()
+
     return (
-      <div>
-        <Button
-          id="basic-button"
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-        >
-          Dashboard
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-          style={{
-            
-          }}
-          className='menu'
-        >
-          <MenuItem onClick={handleClose} style={style}>Profile</MenuItem>
-          <MenuItem onClick={handleClose} style={style}>My account</MenuItem>
-          <MenuItem onClick={handleClose} style={style}>Logout</MenuItem>
-        </Menu>
-      </div>
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label" style={{color: 'white'}}>Selected State</InputLabel>
+                <Select
+                    sx={{
+                        color: 'white',
+                        minWidth: 150,
+                        '.MuiOutlinedInput-notchedOutline': {
+                          borderColor: 'white',
+                        },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                          border: '2px solid rgb(134, 38, 51)'
+                        },
+                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                          border: '3px solid rgb(134, 38, 51)'
+                        },
+                        '.MuiSvgIcon-root ': {
+                          fill: "white !important",
+                        },
+                        
+                      }}
+                    MenuProps={{
+                        PaperProps: {
+                            sx: {
+                                color: 'white',
+                                backgroundColor: 'rgb(35, 35, 35)',
+                                "& .MuiMenuItem-root.Mui-selected": {
+                                    backgroundColor: "rgb(134, 38, 51)"
+                                },
+                                "& .MuiMenuItem-root:hover": {
+                                    backgroundColor: "rgb(50, 50, 50)"
+                                },
+                                "& .MuiMenuItem-root.Mui-selected:hover": {
+                                    backgroundColor: "rgb(149, 53, 66)"
+                                }
+                            }
+                        }
+                    }}
+                    value={age}
+                    label="Selected State"
+                    onChange={handleChange}
+                >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+            </FormControl>
+        </Box>
     );
-  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// const StyledMenu = styled((props) => (
+//     <Menu
+//         elevation={0}
+//         anchorOrigin={{
+//             vertical: 'bottom',
+//             horizontal: 'middle',
+//         }}
+//         transformOrigin={{
+//             vertical: 'bottom',
+//             horizontal: 'middle',
+//         }}
+//         {...props}
+//     />
+// ))(({ theme }) => ({
+//     '& .MuiPaper-root': {
+//         borderRadius: 6,
+//         marginTop: theme.spacing(1),
+//         minWidth: 180,
+//         backgroundColor: `rgb(35, 35, 35)`,
+//         color:
+//             theme.palette.mode === 'light' ? 'white' : 'white',
+//         boxShadow:
+//             'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+//         '& .MuiMenu-list': {
+//             padding: '4px 0',
+//         },
+//         '& .MuiMenuItem-root': {
+//             '& .MuiSvgIcon-root': {
+//                 fontSize: 18,
+//                 backgroundColor: 'red',
+//                 color: theme.palette.text.secondary,
+//                 marginRight: theme.spacing(1.5),
+//             },
+//             '&:active': {
+//                 backgroundColor: `rgb(134, 38, 51)`
+//                 // backgroundColor: alpha(
+//                 //   theme.palette.primary.main,
+//                 //   theme.palette.action.selectedOpacity,
+//                 // ),
+//             },
+//         },
+//     },
+// }));
+
+// function CustomizedMenu() {
+//     const [anchorEl, setAnchorEl] = useState(null);
+//     const open = Boolean(anchorEl);
+//     const handleClick = (event) => {
+//         setAnchorEl(event.currentTarget);
+//     };
+//     const handleClose = () => {
+//         setAnchorEl(null);
+//     };
+
+//     return (
+//         <div>
+//             <Button
+//                 id="demo-customized-button"
+//                 aria-controls={open ? 'demo-customized-menu' : undefined}
+//                 aria-haspopup="true"
+//                 aria-expanded={open ? 'true' : undefined}
+//                 variant="contained"
+//                 disableElevation
+//                 onClick={handleClick}
+//             //endIcon={<KeyboardArrowDownIcon />}
+//             >
+//                 Options
+//             </Button>
+//             <StyledMenu
+//                 id="demo-customized-menu"
+//                 MenuListProps={{
+//                     'aria-labelledby': 'demo-customized-button',
+//                 }}
+//                 anchorEl={anchorEl}
+//                 open={open}
+//                 onClose={handleClose}
+//             >
+//                 <MenuItem onClick={handleClose}>
+//                     Edit
+//                 </MenuItem>
+
+//             </StyledMenu>
+//         </div>
+//     );
+// }
