@@ -4,17 +4,17 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import './Scrollbar.css';
-import { colors } from '@mui/material';
-import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-//import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 //import Button from '@mui/material/Button';
 //import Menu, { MenuProps } from '@mui/material/Menu';
 //import MenuItem from '@mui/material/MenuItem';
@@ -35,21 +35,25 @@ const Remote = () => {
     const [newText, setNewText] = useState("");
     const [rangeText, setRangeText] = useState("");
 
-    const style = {
+    const popupStyle = {
         position: 'absolute',
         top: '60%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 350,
         bgcolor: `rgb(35, 35, 35)`,
         color: 'white',
         //border: '2px solid white',
         boxShadow: 24,
         pt: 2,
-        px: 4,
-        pb: 3,
-        borderRadius: '10px'
+        px: 2,
+        pb: 2,
+        borderRadius: '10px',
     };
+
+    const handleSave = () => {
+        //TODO: Make popup settings save
+    }
 
     const handleClick = () => {
         console.log('Clicked')
@@ -142,7 +146,7 @@ const Remote = () => {
                         color: 'white',
                         maxHeight: 40,
                         borderRadius: 10
-                    }}>Change...</Button>
+                    }}>Change</Button>
                 </div>)
         }
         return <div>{rows}</div>
@@ -211,7 +215,7 @@ const Remote = () => {
                     }}
                 >
                     <Fade in={open}>
-                        <Box sx={style}>
+                        <Box sx={popupStyle}>
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
@@ -230,9 +234,41 @@ const Remote = () => {
                                 <p>{newText}</p>
                                 {modalType ?
                                     <p>hi</p> :
-                                    <div>
-                                        <StyledSelect />
-                                    </div>}
+                                    <StyledSelect />}
+                            </div>
+                            <br/>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-around'
+                            }}>
+                                
+                            </div>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-around'
+                            }}>
+                                
+                                {/* <div></div> */}
+                                <PasswordField />
+                                <div></div>
+                                <Button onClick={handleClose} style={{
+                                    backgroundColor: `rgb(134, 38, 51)`,
+                                    borderWidth: 1,
+                                    color: 'white',
+                                    minHeight: 40,
+                                    minWidth: 80,
+                                    borderRadius: 10
+                                }}>Cancel</Button>
+                                <Button onClick={handleSave} style={{
+                                    backgroundColor: `rgb(134, 38, 51)`,
+                                    borderWidth: 1,
+                                    color: 'white',
+                                    //maxHeight: 40,
+                                    minHeight: 40,
+                                    minWidth: 80,
+                                    borderRadius: 10
+                                }}>Save</Button>
+                                
                             </div>
                         </Box>
                     </Fade>
@@ -256,7 +292,7 @@ const Remote = () => {
                 maxWidth: 350,
                 margin: '0 auto'
             }}>
-                <br></br>
+                <br/>
             </div>
         </div>
     )
@@ -281,25 +317,25 @@ function StyledSelect() {
     return (
         <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label" style={{color: 'white'}}>Selected State</InputLabel>
+                <InputLabel id="demo-simple-select-label" style={{ color: 'white' }}>Selected State</InputLabel>
                 <Select
                     sx={{
                         color: 'white',
-                        minWidth: 150,
+                        minWidth: 155,
                         '.MuiOutlinedInput-notchedOutline': {
-                          borderColor: 'white',
+                            borderColor: 'white',
                         },
                         '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                          border: '2px solid rgb(134, 38, 51)'
+                            border: '2px solid rgb(134, 38, 51)'
                         },
                         '&:hover .MuiOutlinedInput-notchedOutline': {
-                          border: '3px solid rgb(134, 38, 51)'
+                            border: '3px solid rgb(134, 38, 51)'
                         },
                         '.MuiSvgIcon-root ': {
-                          fill: "white !important",
+                            fill: "white !important",
                         },
-                        
-                      }}
+
+                    }}
                     MenuProps={{
                         PaperProps: {
                             sx: {
@@ -329,6 +365,60 @@ function StyledSelect() {
         </Box>
     );
 }
+
+function PasswordField() {
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+    return (
+        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div>
+                <FormControl sx={{ m: 0, width: '15ch' }} variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password" style={{ color: 'white' }}>Security PIN</InputLabel>
+                    <OutlinedInput
+                        sx={{
+                            color: 'white',
+                            minWidth: 155,
+                            '.MuiOutlinedInput-notchedOutline': {
+                                borderColor: 'white',
+                            },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                border: '2px solid rgb(134, 38, 51)'
+                            },
+                            '&:hover .MuiOutlinedInput-notchedOutline': {
+                                border: '3px solid rgb(134, 38, 51)'
+                            },
+                            '.MuiSvgIcon-root ': {
+                                fill: "white !important",
+                            },
+                        }}
+                        id="outlined-adornment-password"
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        label="Security PIN"
+                    />
+                </FormControl>
+            </div>
+        </Box>
+    );
+}
+
 
 
 
