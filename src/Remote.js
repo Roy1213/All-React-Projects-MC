@@ -15,6 +15,9 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+import { useDispatch, useSelector } from 'react-redux';
+//import { registerPin } from 'react-redux'
 //import Button from '@mui/material/Button';
 //import Menu, { MenuProps } from '@mui/material/Menu';
 //import MenuItem from '@mui/material/MenuItem';
@@ -375,12 +378,24 @@ function PasswordField() {
         event.preventDefault();
     };
 
+    const [val, setVal] = useState('')
+    
+    const handleChange = (event) => {
+        setVal(event.target.value.replace(/\D/g, ""))
+        // this.setState({
+        //     value: event.target.value.replace(/\D/g, "")
+        // })//replace all non-numbers with an empty char
+        // dispatch(registerPin(result));
+        // setValues({ ...values, [prop]: result });
+      };
+
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap'}}>
             <div>
                 <FormControl sx={{ m: 0, width: '15ch' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password" style={{ color: 'white' }}>Security PIN</InputLabel>
                     <OutlinedInput
+                    value={val}
                         sx={{
                             color: 'white',
                             minWidth: 155,
@@ -397,6 +412,7 @@ function PasswordField() {
                                 fill: "white !important",
                             },
                         }}
+                        onChange={handleChange}
                         id="outlined-adornment-password"
                         type={showPassword ? 'text' : 'password'}
                         endAdornment={
