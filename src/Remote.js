@@ -51,7 +51,7 @@ const Remote = () => {
         pt: 2,
         px: 2,
         pb: 2,
-        borderRadius: '10px',
+        borderRadius: '10px'
     };
 
     const handleSave = () => {
@@ -217,7 +217,7 @@ const Remote = () => {
                         },
                     }}
                 >
-                    <Fade in={open}>
+                    <Fade in={open} style={{outline: 'none'}}>
                         <Box sx={popupStyle}>
                             <div style={{
                                 display: 'flex',
