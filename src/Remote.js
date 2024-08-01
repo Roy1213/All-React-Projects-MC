@@ -175,17 +175,17 @@ const Remote = () => {
                 maxHeight: 50,
                 border: 0,
                 overflow: 'hidden',
-                ...(isOpen ? { borderTopLeftRadius: '10px', borderTopRightRadius: '10px' } : { borderTopLeftRadius: '10px', borderTopRightRadius: '10px', })
+                borderTopLeftRadius: '10px', 
+                borderTopRightRadius: '10px'
             }}>
                 <div style={{
                     display: 'flex',
-                    justifyContent: 'space-between',
+                    justifyContent: 'center',
                 }}>
                     <h1 style={{
                         color: 'rgb(134, 38, 51)', '-webkit-text-stroke-width': '1px',
                         '-webkit-text-stroke-color': 'white'
                     }}>Remote Control</h1>
-                    {isOpen ? <h1 style={{ color: 'white' }}>⊖</h1> : <h1 style={{ color: 'white' }}>⊕</h1>}
                 </div>
             </button>
             <div style={{
@@ -195,8 +195,7 @@ const Remote = () => {
                 minWidth: 350,
                 margin: '0 auto',
                 padding: 0,
-                maxHeight: isOpen ? 360 : 0,
-                transition: isOpen ? 'all ease-out .35' : 'all ease-in .35s',
+                maxHeight: 360,
                 overflowY: 'auto',
                 overflowX: 'hidden',
             }}>
