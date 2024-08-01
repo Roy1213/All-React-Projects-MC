@@ -1,13 +1,15 @@
+
 ::-webkit-scrollbar {
     width: 7px;
 }
-/* *:hover::-webkit-scrollbar {
-    width: 10px !important;
-} */
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background:rgb(134, 38, 51)
+    background: rgb(134, 38, 51);
 }
-Menu.menu {
-    background:rgb(134, 38, 51)
+::-webkit-scrollbar-thumb:vertical:hover{
+    background: rgb(149, 53, 66);
+    width: 14px;
 }
+/* Menu.menu {
+    background:rgb(134, 38, 51)
+} */

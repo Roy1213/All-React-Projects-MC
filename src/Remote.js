@@ -15,6 +15,10 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import FormHelperText from '@mui/material/FormHelperText';
+//import InputAdornment from '@mui/material/InputAdornment';
+//import FormHelperText from '@mui/material/FormHelperText';
+//import FormControl from '@mui/material/FormControl';
 
 import { useDispatch, useSelector } from 'react-redux';
 //import { registerPin } from 'react-redux'
@@ -28,6 +32,9 @@ import { useDispatch, useSelector } from 'react-redux';
 // import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
+var rangeArrayVar = []
+var unitTextVar = ""
+
 const Remote = () => {
     const [isOpen, setOpen] = useState(false)
     const [open, setModalIsOpen] = useState(false)
@@ -36,7 +43,8 @@ const Remote = () => {
     const [currentText, setCurrentText] = useState("")
     const [currentValueText, setCurrentValueText] = useState("")
     const [newText, setNewText] = useState("");
-    const [rangeText, setRangeText] = useState("");
+    const [rangeArray, setRangeArray] = useState([]);
+    const [unitText, setUnitText] = useState([])
 
     const popupStyle = {
         position: 'absolute',
@@ -63,17 +71,21 @@ const Remote = () => {
         setOpen(!isOpen)
     }
     const handleOpen = (i) => {
-        setModalType(textBoxOrMenu[i])
-        setCurrentText("Current " + text1[i])
-        setCurrentValueText(text2[i])
-        setNewText("New " + text1[i])
+        setModalType(modalBooleans[i])
+        setCurrentText("Current " + texts1[i])
+        setCurrentValueText(texts2[i])
+        setNewText("New " + texts1[i])
+        setRangeArray(ranges[i])
+        setUnitText(units[i])
         setModalIsOpen(true)
+        rangeArrayVar = ranges[i]
+        unitTextVar = units[i]
     }
     const handleClose = () => {
         setModalIsOpen(false)
     }
 
-    const text1 = [
+    const texts1 = [
         "Dryer State:",
         "Disch Mode:",
         "Disch Speed SP:",
@@ -82,16 +94,16 @@ const Remote = () => {
         "Top Plenum(sp):",
         "Bot Plenum(sp):"
     ]
-    const text2 = [
+    const texts2 = [
         "Running",
         "Manual",
         "10 %",
         "120 F",
-        "15.0 %",
+        "15 %",
         "180 F",
         "180 F"
     ]
-    const textBoxOrMenu = [
+    const modalBooleans = [
         false,
         false,
         true,
@@ -100,9 +112,9 @@ const Remote = () => {
         true,
         true
     ]
-    const range = [
-        [],
-        [],
+    const ranges = [
+        ["Running", "Off"],
+        ["Manual", "Automatic"],
         [0, 100],
         [0, 220],
         [0, 100],
@@ -110,7 +122,7 @@ const Remote = () => {
         [0, 220]
 
     ]
-    const rangeUnit = [
+    const units = [
         "",
         "",
         "%",
@@ -136,11 +148,13 @@ const Remote = () => {
                     }}>
                         <p style={{
                             paddingLeft: 5
-                        }}>{text1[i]}</p>
+                        }}>{texts1[i]}</p>
                         <p style={{
                             paddingLeft: 5,
-                            color: 'lime'
-                        }}>{text2[i]}</p>
+                            //textShadow: 'rgb(134, 38, 51) 1.5px 1px 0px, rgb(0, 0, 0) 2px 1px 0px'
+                            fontWeight: '1000',
+                            //fontSize: '20px',
+                        }}>{texts2[i]}</p>
                     </div>
 
                     <Button onClick={() => handleOpen(i)} style={{
@@ -160,6 +174,8 @@ const Remote = () => {
         }}>
             <button onClick={handleClick} style={{
                 backgroundColor: `rgb(35, 35, 35)`,
+                // borderBottom: '1px solid white',
+
                 borderColor: `rgb(35, 35, 35)`,
                 minWidth: 350,
                 maxWidth: 350,
@@ -175,9 +191,10 @@ const Remote = () => {
                     display: 'flex',
                     justifyContent: 'space-between',
                 }}>
-                    <h1 style={{ color: 'white' }}>Remote Control</h1>
+                    <h1 style={{ color: 'rgb(134, 38, 51)', '-webkit-text-stroke-width': '1px',
+                            '-webkit-text-stroke-color': 'white'}}>Remote Control</h1>
                     {/*<h1 style={{ color: `rgb(35, 35, 35)` }}>_</h1>*/}
-                    {isOpen ? <h1 style={{ color: 'white' }}>⊖</h1> : <h1 style={{ color: 'white' }}>⊕</h1>}
+                    {isOpen ? <h1 style={{ color: 'white' }}>⊖</h1> : <h1 style={{ color: 'white'}}>⊕</h1>}
                 </div>
             </button>
             <div style={{
@@ -217,7 +234,7 @@ const Remote = () => {
                         },
                     }}
                 >
-                    <Fade in={open} style={{outline: 'none'}}>
+                    <Fade in={open} style={{ outline: 'none' }}>
                         <Box sx={popupStyle}>
                             <div style={{
                                 display: 'flex',
@@ -236,21 +253,21 @@ const Remote = () => {
                             }}>
                                 <p>{newText}</p>
                                 {modalType ?
-                                    <p>hi</p> :
+                                    <TempOrPercentInput /> :
                                     <StyledSelect />}
                             </div>
-                            <br/>
+                            <br />
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'space-around'
                             }}>
-                                
+
                             </div>
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'space-around'
                             }}>
-                                
+
                                 {/* <div></div> */}
                                 <PasswordField />
                                 <div></div>
@@ -271,7 +288,7 @@ const Remote = () => {
                                     minWidth: 80,
                                     borderRadius: 10
                                 }}>Save</Button>
-                                
+
                             </div>
                         </Box>
                     </Fade>
@@ -279,7 +296,9 @@ const Remote = () => {
 
 
                 <p style={{
-                    color: 'yellow',
+                    background: 'linear-gradient(to right, rgb(255, 255, 255), rgb(134, 38, 51))',
+                    '-webkit-background-clip': 'text',
+	                '-webkit-text-fill-color': 'transparent',
                     textAlign: 'left',
                     paddingLeft: 15
                 }}>
@@ -295,7 +314,7 @@ const Remote = () => {
                 maxWidth: 350,
                 margin: '0 auto'
             }}>
-                <br/>
+                <br />
             </div>
         </div>
     )
@@ -360,9 +379,8 @@ function StyledSelect() {
                     label="Selected State"
                     onChange={handleChange}
                 >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    <MenuItem value={0}>{rangeArrayVar[0]}</MenuItem>
+                    <MenuItem value={1}>{rangeArrayVar[1]}</MenuItem>
                 </Select>
             </FormControl>
         </Box>
@@ -379,23 +397,20 @@ function PasswordField() {
     };
 
     const [val, setVal] = useState('')
-    
+
     const handleChange = (event) => {
         setVal(event.target.value.replace(/\D/g, ""))
-        // this.setState({
-        //     value: event.target.value.replace(/\D/g, "")
-        // })//replace all non-numbers with an empty char
-        // dispatch(registerPin(result));
-        // setValues({ ...values, [prop]: result });
-      };
+    };
 
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap'}}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <div>
                 <FormControl sx={{ m: 0, width: '15ch' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password" style={{ color: 'white' }}>Security PIN</InputLabel>
                     <OutlinedInput
-                    value={val}
+                    autoComplete='off'
+                    autoCapitalize='off'
+                        value={val}
                         sx={{
                             color: 'white',
                             minWidth: 155,
@@ -429,6 +444,63 @@ function PasswordField() {
                         }
                         label="Security PIN"
                     />
+                </FormControl>
+            </div>
+        </Box>
+    );
+}
+
+function TempOrPercentInput() {
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+    const [val, setVal] = useState('')
+
+    const handleChange = (event) => {
+        setVal(event.target.value.replace(/\D/g, ""))
+    };
+
+
+    return (
+        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div>
+                <FormControl sx={{width: '16ch' }} variant="outlined">
+                    <OutlinedInput
+                    value={val}
+                    autoComplete='off'
+                    autoCapitalize='off'
+                        sx={{
+                            color: 'white',
+                            minWidth: 155,
+                            '.MuiOutlinedInput-notchedOutline': {
+                                borderColor: 'white',
+                            },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                border: '2px solid rgb(134, 38, 51)'
+                            },
+                            '&:hover .MuiOutlinedInput-notchedOutline': {
+                                border: '3px solid rgb(134, 38, 51)'
+                            },
+                            '.MuiSvgIcon-root ': {
+                                fill: "white !important",
+                            },
+                        }}
+                        onChange={handleChange}
+                        id="outlined-adornment-weight"
+                        endAdornment={<InputAdornment position="middle"><p style={{color: 'white'
+                        }}>{unitTextVar}</p></InputAdornment>}
+                        aria-describedby="outlined-weight-helper-text"
+                        inputProps={{
+                            'aria-label': 'weight',
+                        }}
+                    />
+                    <FormHelperText id="outlined-weight-helper-text" style={{color: 'white', minWidth: '150px'
+                        }}>{(unitTextVar === '%' ? "Percentage" : "Temperature") + " (" + rangeArrayVar[0] + " - " + rangeArrayVar[1] + " " + unitTextVar + ")"}</FormHelperText>
                 </FormControl>
             </div>
         </Box>
