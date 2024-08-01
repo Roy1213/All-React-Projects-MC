@@ -175,7 +175,7 @@ const Remote = () => {
                 maxHeight: 50,
                 border: 0,
                 overflow: 'hidden',
-                borderTopLeftRadius: '10px', 
+                borderTopLeftRadius: '10px',
                 borderTopRightRadius: '10px'
             }}>
                 <div style={{
