@@ -34,6 +34,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 var rangeArrayVar = []
 var unitTextVar = ""
+var allowedPeriodsVar = 0
 
 const Remote = () => {
     const [isOpen, setOpen] = useState(false)
@@ -80,6 +81,7 @@ const Remote = () => {
         setModalIsOpen(true)
         rangeArrayVar = ranges[i]
         unitTextVar = units[i]
+        allowedPeriodsVar = allowedPeriods[i]
     }
     const handleClose = () => {
         setModalIsOpen(false)
@@ -99,7 +101,7 @@ const Remote = () => {
         "Manual",
         "10 %",
         "120 F",
-        "15 %",
+        "15.0 %",
         "180 F",
         "180 F"
     ]
@@ -130,6 +132,15 @@ const Remote = () => {
         "%",
         "F",
         "F"
+    ]
+    const allowedPeriods = [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0, 
+        0
     ]
 
     const generateContent = () => {
@@ -399,7 +410,7 @@ function PasswordField() {
     const [val, setVal] = useState('')
 
     const handleChange = (event) => {
-        setVal(event.target.value.replace(/\D/g, ""))
+        setVal(event.target.value.replace(/\D/g, "").substring(0, 4))
     };
 
     return (
@@ -421,7 +432,7 @@ function PasswordField() {
                                 border: '2px solid rgb(134, 38, 51)'
                             },
                             '&:hover .MuiOutlinedInput-notchedOutline': {
-                                border: '3px solid rgb(134, 38, 51)'
+                                border: '3px solid rgb(134, 38, 51)',
                             },
                             '.MuiSvgIcon-root ': {
                                 fill: "white !important",
@@ -462,7 +473,28 @@ function TempOrPercentInput() {
     const [val, setVal] = useState('')
 
     const handleChange = (event) => {
-        setVal(event.target.value.replace(/\D/g, ""))
+        //var value = event.target.value.replace(/\D/g, "")
+        var value = event.target.value
+        var periodsFound = 0;
+        for (let i = 0; i < value.length; i++) {
+            if (value.substring(i, i + 1) === ".") {
+                periodsFound++
+            }
+            if (periodsFound > allowedPeriodsVar || "0123456789.".indexOf(value.substring(i, i + 1)) === -1) {
+                value = value.substring(0, i) + value.substring(i + 1)
+                periodsFound--
+                i--
+            }
+            if (periodsFound === 1 && value.substring(i, i + 1) !== ".") {
+                value = value.substring(0, i + 1)
+            }
+        }
+        if (parseFloat(value) > rangeArrayVar[1]) {
+            value = rangeArrayVar[1]
+        } else if (parseFloat(value) < rangeArrayVar[0]) {
+            value = rangeArrayVar[0]
+        }
+        setVal(value)
     };
 
 
