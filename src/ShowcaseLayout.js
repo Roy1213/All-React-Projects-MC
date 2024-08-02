@@ -10,7 +10,7 @@ export default class ShowcaseLayout extends React.Component {
     super(props);
     this.state = {
       currentBreakpoint: "lg",
-      compactType: "vertical",
+      compactType: null,
       mounted: false,
       layouts: { lg: props.initialLayout }
     };
@@ -37,7 +37,7 @@ export default class ShowcaseLayout extends React.Component {
               Static - {i}
             </span>
           ) : (
-            <span className="text">{i}</span>
+            <span className="text">{}</span>
           )}
         </div>
       );
@@ -52,12 +52,10 @@ export default class ShowcaseLayout extends React.Component {
 
   onCompactTypeChange() {
     const { compactType: oldCompactType } = this.state;
-    const compactType = "vertical"
-    //   oldCompactType === "horizontal"
-    //     ? "vertical"
-    //     : oldCompactType === "vertical"
-    //       ? null
-    //       : "horizontal";
+    const compactType =
+        oldCompactType === "vertical"
+          ? null
+          : "vertical";
     this.setState({ compactType });
   }
 
@@ -73,8 +71,8 @@ export default class ShowcaseLayout extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>
+      <div style={{margin: 'auto'}}>
+        {/* <div>
           Current Breakpoint: {this.state.currentBreakpoint} ({
             this.props.cols[this.state.currentBreakpoint]
           }{" "}
@@ -83,7 +81,7 @@ export default class ShowcaseLayout extends React.Component {
         <div>
           Compaction type:{" "}
           {_.capitalize(this.state.compactType) || "No Compaction"}
-        </div>
+        </div> */}
         <button onClick={this.onNewLayout}>Generate New Layout</button>
         <button onClick={this.onCompactTypeChange}>
           Change Compaction Type
@@ -116,7 +114,7 @@ ShowcaseLayout.defaultProps = {
   className: "layout",
   rowHeight: 36,
   onLayoutChange: function() {},
-  cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+  cols: { lg: 12, md: 2, sm: 6, xs: 4, xxs: 2 },
   initialLayout: generateLayout()
 };
 
@@ -126,7 +124,7 @@ function generateLayout() {
     return {
       x: (_.random(0, 5)) % 12,
       y: Math.floor(i / 6) * y,
-      w: 1,
+      w: 2,
       h: y,
       i: i.toString(),
       static: Math.random() < 0.05

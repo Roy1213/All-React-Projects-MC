@@ -49,7 +49,9 @@ class ExampleLayout extends React.Component {
           Displayed as <code>[x, y, w, h]</code>:
           <div className="columns">{this.stringifyLayout()}</div>
         </div>
-        <ShowcaseLayout onLayoutChange={this.onLayoutChange} />
+        <div id="flipdiv">
+          <ShowcaseLayout onLayoutChange={this.onLayoutChange} />
+        </div>
       </div>
     );
   }
