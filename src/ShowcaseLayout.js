@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import './example-styles.css';
+import { ViewColumn } from "@mui/icons-material";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 var heights = [1, 2, 3, 4]
+let containerWidth = 110
 
 export default class ShowcaseLayout extends React.Component {
   constructor(props) {
@@ -65,7 +67,14 @@ export default class ShowcaseLayout extends React.Component {
     this.props.onLayoutChange(layout, layouts);
   }
 
-  onNewLayout() {
+  onNewLayout(height) {
+    if (height === -1) {
+      heights.shift()
+    } else if (height === -2) {
+      heights.pop()
+    } else {
+      heights[heights.length] = height
+    }
     this.setState({
       layouts: { lg: generateLayout() }
     });
@@ -73,7 +82,7 @@ export default class ShowcaseLayout extends React.Component {
 
   render() {
     return (
-      <div style={{margin: 'auto'}}>
+      <div style={{margin:'auto', width: containerWidth}}>
         {/* <div>
           Current Breakpoint: {this.state.currentBreakpoint} ({
             this.props.cols[this.state.currentBreakpoint]
@@ -84,10 +93,30 @@ export default class ShowcaseLayout extends React.Component {
           Compaction type:{" "}
           {_.capitalize(this.state.compactType) || "No Compaction"}
         </div> */}
-        <button onClick={this.onNewLayout}>{heights[heights.length] = 2}Generate New Layout</button>
-        <button onClick={this.onCompactTypeChange}>
+
+        <div style={{borderTopRightRadius: '10px'}}>
+        <div style={{display: 'flex',
+        justifyContent: 'center'}}>
+          <button onClick={() => this.onNewLayout(1)} style={{minWidth: containerWidth / 2}}>+ H1</button>
+          <button onClick={() => this.onNewLayout(2)} style={{minWidth: containerWidth / 2}}>+ H2</button>
+        </div>
+        <div style={{display: 'flex',
+        justifyContent: 'center'}}>
+          <button onClick={() => this.onNewLayout(3)} style={{minWidth: containerWidth / 2}}>+ H3</button>
+          <button onClick={() => this.onNewLayout(4)} style={{minWidth: containerWidth / 2}}>+ H4</button>
+        </div>
+        <div style={{display: 'flex',
+        justifyContent: 'center'}}>
+          <button onClick={() => this.onNewLayout(-1)} style={{minWidth: containerWidth / 2}}>- O</button>
+          <button onClick={() => this.onNewLayout(-2)} style={{minWidth: containerWidth / 2}}>- R</button>
+        </div>
+        </div>
+        
+        
+        {/* <button onClick={this.onCompactTypeChange}>
           Change Compaction Type
-        </button>
+        </button> */}
+        <div>
         <ResponsiveReactGridLayout
           {...this.props}
           layouts={this.state.layouts}
@@ -103,6 +132,7 @@ export default class ShowcaseLayout extends React.Component {
         >
           {this.generateDOM()}
         </ResponsiveReactGridLayout>
+        </div>
       </div>
     );
   }

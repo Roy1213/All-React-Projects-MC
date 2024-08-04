@@ -21,12 +21,15 @@ body {
   }
   .react-grid-layout {
     background: black;
+    border-bottom-right-radius: 10px;
   }
   .layoutJSON {
     background: rgb(134, 38, 51);
     border: 1px solid black;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     padding: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
   }
   .columns {
     -moz-columns: 120px;
