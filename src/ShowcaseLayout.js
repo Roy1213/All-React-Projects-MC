@@ -5,12 +5,14 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 import './example-styles.css';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
+var heights = [1, 2, 3, 4]
+
 export default class ShowcaseLayout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currentBreakpoint: "lg",
-      compactType: null,
+      compactType: "vertical",
       mounted: false,
       layouts: { lg: props.initialLayout }
     };
@@ -82,7 +84,7 @@ export default class ShowcaseLayout extends React.Component {
           Compaction type:{" "}
           {_.capitalize(this.state.compactType) || "No Compaction"}
         </div> */}
-        <button onClick={this.onNewLayout}>Generate New Layout</button>
+        <button onClick={this.onNewLayout}>{heights[heights.length] = 2}Generate New Layout</button>
         <button onClick={this.onCompactTypeChange}>
           Change Compaction Type
         </button>
@@ -114,20 +116,20 @@ ShowcaseLayout.defaultProps = {
   className: "layout",
   rowHeight: 36,
   onLayoutChange: function() {},
-  cols: { lg: 12, md: 2, sm: 6, xs: 4, xxs: 2 },
+  cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
   initialLayout: generateLayout()
 };
 
 function generateLayout() {
-  return _.map(_.range(0, 5), function(item, i) {
-    var y = Math.ceil(Math.random() * 4) + 1;
+  return _.map(_.range(0, heights.length), function(item, i) {
+    var y = heights[i] //Math.ceil(Math.random() * 4) + 1;
     return {
       x: (_.random(0, 5)) % 12,
       y: Math.floor(i / 6) * y,
       w: 2,
       h: y,
       i: i.toString(),
-      static: Math.random() < 0.05
+      static: false
     };
   });
 }

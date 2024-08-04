@@ -44,12 +44,13 @@ class ExampleLayout extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{display: 'flex',
+        justifyContent: 'space-between'}}>
         <div className="layoutJSON">
           Displayed as <code>[x, y, w, h]</code>:
           <div className="columns">{this.stringifyLayout()}</div>
         </div>
-        <div id="flipdiv">
+        <div>
           <ShowcaseLayout onLayoutChange={this.onLayoutChange} />
         </div>
       </div>
