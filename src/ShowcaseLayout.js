@@ -3,11 +3,15 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import './example-styles.css';
+import './Scrollbar.css';
+import Button from '@mui/material/Button';
 import { ViewColumn } from "@mui/icons-material";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 var heights = [1, 2, 3, 4]
-let containerWidth = 110
+let containerWidth = 250
+let containerHeight = 700
+let buttonArrayHeight = 75
 
 export default class ShowcaseLayout extends React.Component {
   constructor(props) {
@@ -25,11 +29,23 @@ export default class ShowcaseLayout extends React.Component {
     this.onNewLayout = this.onNewLayout.bind(this);
   }
 
+  static setState() {
+    super.setState()
+  }
+
   componentDidMount() {
     this.setState({ mounted: true });
   }
 
-  generateDOM() {
+  static removeAtIndex(index, showcaseLayout) {
+    heights.splice(index, 1)
+    generateLayout()
+    showcaseLayout.setState({
+      layouts: { lg: generateLayout() }
+    });
+  }
+
+  generateDOM(showcaseLayout) {
     return _.map(this.state.layouts.lg, function(l, i) {
       return (
         <div key={i} className={l.static ? "static" : ""}>
@@ -41,7 +57,10 @@ export default class ShowcaseLayout extends React.Component {
               Static - {i}
             </span>
           ) : (
-            <span className="text">{}</span>
+            <span className="text">
+              <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)}>Remove</button>
+            </span>
+            
           )}
         </div>
       );
@@ -80,9 +99,28 @@ export default class ShowcaseLayout extends React.Component {
     });
   }
 
+  onDragStop = () => {
+    console.log("howdy hello world")
+    //this.setState({ isDragging: false, height: 10 });
+    
+  };
+
+  dragging = () => {
+    console.log("howdy world")
+  }
+
+  buttonStyle = {
+    minWidth: containerWidth / 2, 
+    height: buttonArrayHeight / 3,
+    backgroundColor: 'rgb(134, 38, 51)',
+    border: '1px solid black',
+    color: 'white',
+    borderRadius: '5px'
+  }
+
   render() {
     return (
-      <div style={{margin:'auto', width: containerWidth}}>
+      <div style={{width: containerWidth, maxHeight: containerHeight}}>
         {/* <div>
           Current Breakpoint: {this.state.currentBreakpoint} ({
             this.props.cols[this.state.currentBreakpoint]
@@ -94,21 +132,21 @@ export default class ShowcaseLayout extends React.Component {
           {_.capitalize(this.state.compactType) || "No Compaction"}
         </div> */}
 
-        <div style={{borderTopRightRadius: '10px'}}>
+        <div style={{borderTopRightRadius: '10px', height: buttonArrayHeight}}>
         <div style={{display: 'flex',
         justifyContent: 'center'}}>
-          <button onClick={() => this.onNewLayout(1)} style={{minWidth: containerWidth / 2}}>+ H1</button>
-          <button onClick={() => this.onNewLayout(2)} style={{minWidth: containerWidth / 2}}>+ H2</button>
+          <Button onClick={() => this.onNewLayout(1)} style={this.buttonStyle}>+ H1</Button>
+          <Button onClick={() => this.onNewLayout(2)} style={this.buttonStyle}>+ H2</Button>
         </div>
         <div style={{display: 'flex',
         justifyContent: 'center'}}>
-          <button onClick={() => this.onNewLayout(3)} style={{minWidth: containerWidth / 2}}>+ H3</button>
-          <button onClick={() => this.onNewLayout(4)} style={{minWidth: containerWidth / 2}}>+ H4</button>
+          <Button onClick={() => this.onNewLayout(3)} style={this.buttonStyle}>+ H3</Button>
+          <Button onClick={() => this.onNewLayout(4)} style={this.buttonStyle}>+ H4</Button>
         </div>
         <div style={{display: 'flex',
         justifyContent: 'center'}}>
-          <button onClick={() => this.onNewLayout(-1)} style={{minWidth: containerWidth / 2}}>- O</button>
-          <button onClick={() => this.onNewLayout(-2)} style={{minWidth: containerWidth / 2}}>- R</button>
+          <Button onClick={() => this.onNewLayout(-1)} style={this.buttonStyle}>- O</Button>
+          <Button onClick={() => this.onNewLayout(-2)} style={this.buttonStyle}>- R</Button>
         </div>
         </div>
         
@@ -116,12 +154,14 @@ export default class ShowcaseLayout extends React.Component {
         {/* <button onClick={this.onCompactTypeChange}>
           Change Compaction Type
         </button> */}
-        <div>
+        <div style={{maxHeight: containerHeight - buttonArrayHeight, overflowX: 'hidden', overflowY: 'auto'}}>
         <ResponsiveReactGridLayout
           {...this.props}
           layouts={this.state.layouts}
           onBreakpointChange={this.onBreakpointChange}
           onLayoutChange={this.onLayoutChange}
+          //onDrag={this.dragging}
+          onDragStop={this.onDragStop}
           // WidthProvider option
           measureBeforeMount={false}
           // I like to have it animate on mount. If you don't, delete `useCSSTransforms` (it's default `true`)
@@ -129,8 +169,9 @@ export default class ShowcaseLayout extends React.Component {
           useCSSTransforms={this.state.mounted}
           compactType={this.state.compactType}
           preventCollision={!this.state.compactType}
+          // style={{width: containerWidth / 2}}
         >
-          {this.generateDOM()}
+          {this.generateDOM(this)}
         </ResponsiveReactGridLayout>
         </div>
       </div>

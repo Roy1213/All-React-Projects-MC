@@ -47,13 +47,13 @@ class ExampleLayout extends React.Component {
   render() {
     return (
       <div style={{display: 'flex',
-        justifyContent: 'center'}}>
-        <div className="layoutJSON">
+        justifyContent: 'center', /*overflow: 'hidden'*/ maxHeight: 700, }}>
+        <div className="layoutJSON" style={{overflowY: 'auto'}}>
           Displayed as <code>[x, y, w, h]</code>:
           <div className="columns">{this.stringifyLayout()}</div>
         </div>
-        <div>
-          <ShowcaseLayout onLayoutChange={this.onLayoutChange} />
+        <div /*style={{overflowY: 'auto'}}*/>
+          <ShowcaseLayout onLayoutChange={this.onLayoutChange}/>
         </div>
       </div>
     );

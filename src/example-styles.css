@@ -11,8 +11,8 @@
 
 
 body {
-    background: rgb(35, 35, 35);
-    padding: 20px;
+    background: rgb(20, 20, 20);
+    /* padding: 20px; */
     overflow: scroll;
     color: white;
   }
@@ -21,10 +21,10 @@ body {
   }
   .react-grid-layout {
     background: black;
-    border-bottom-right-radius: 10px;
+    /* border-bottom-right-radius: 10px; */
   }
   .layoutJSON {
-    background: rgb(134, 38, 51);
+    background: rgb(35, 35, 35);
     border: 1px solid black;
     /* margin-top: 10px; */
     padding: 10px;

@@ -3,10 +3,14 @@
 }
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: rgb(134, 38, 51);
+    background: linear-gradient(white, rgb(134, 38, 51));
 }
 ::-webkit-scrollbar-thumb:vertical:hover{
-    background: rgb(149, 53, 66);
+    background: white;
+}
+::-webkit-scrollbar-track{
+    /* background: black;
+    border-radius: 10px; */
 }
 /* Menu.menu {
     background:rgb(134, 38, 51)
