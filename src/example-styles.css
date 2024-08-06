@@ -38,6 +38,7 @@ body {
   }
   .react-grid-item {
     box-sizing: border-box;
+    
   }
   .react-grid-item:not(.react-grid-placeholder) {
     background: rgb(134, 38, 51);

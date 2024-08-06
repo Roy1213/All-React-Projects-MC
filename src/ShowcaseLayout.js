@@ -5,10 +5,12 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 import './example-styles.css';
 import './Scrollbar.css';
 import Button from '@mui/material/Button';
+import part1 from './images/part1.png'
 import { ViewColumn } from "@mui/icons-material";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-var heights = [1, 2, 3, 4]
+var types = [1, 2, 3, 4, 5]
+var heights = [2, 3, 2, 4, 2]
 let containerWidth = 250
 let containerHeight = 700
 let buttonArrayHeight = 75
@@ -38,7 +40,7 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   static removeAtIndex(index, showcaseLayout) {
-    heights.splice(index, 1)
+    types.splice(index, 1)
     generateLayout()
     showcaseLayout.setState({
       layouts: { lg: generateLayout() }
@@ -57,9 +59,17 @@ export default class ShowcaseLayout extends React.Component {
               Static - {i}
             </span>
           ) : (
-            <span className="text">
-              <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)}>Remove</button>
-            </span>
+
+            <div>
+              <img src={part1} width='50%' height='172px' alt="Part 1"/>
+              {/* <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)}>Remove</button> */}
+            </div>
+
+
+            // <span className="text">
+            //   <img src={part1} width={100} height={100} alt="Part 1"/>
+            //   {/* <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)}>Remove</button> */}
+            // </span>
             
           )}
         </div>
@@ -88,11 +98,11 @@ export default class ShowcaseLayout extends React.Component {
 
   onNewLayout(height) {
     if (height === -1) {
-      heights.shift()
+      types.shift()
     } else if (height === -2) {
-      heights.pop()
+      types.pop()
     } else {
-      heights[heights.length] = height
+      types[types.length] = height
     }
     this.setState({
       layouts: { lg: generateLayout() }
@@ -192,8 +202,8 @@ ShowcaseLayout.defaultProps = {
 };
 
 function generateLayout() {
-  return _.map(_.range(0, heights.length), function(item, i) {
-    var y = heights[i] //Math.ceil(Math.random() * 4) + 1;
+  return _.map(_.range(0, types.length), function(item, i) {
+    var y = heights[types[i] % 5 - 1] * 2 //Math.ceil(Math.random() * 4) + 1;
     return {
       x: (_.random(0, 5)) % 12,
       y: Math.floor(i / 6) * y,
