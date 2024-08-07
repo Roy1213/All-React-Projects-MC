@@ -41,7 +41,7 @@ body {
     
   }
   .react-grid-item:not(.react-grid-placeholder) {
-    background: rgb(134, 38, 51);
+    background: white;
     border: 1px solid black;
     border-radius: 10px;
   }

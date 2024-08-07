@@ -37,6 +37,25 @@ export default class ShowcaseLayout extends React.Component {
     this.onNewLayout = this.onNewLayout.bind(this);
   }
 
+  buttonStyle = {
+    minWidth: containerWidth / 2,
+    height: buttonArrayHeight / 3,
+    backgroundColor: 'rgb(134, 38, 51)',
+    border: '1px solid black',
+    color: 'white',
+    borderRadius: '5px'
+  }
+
+  static buttonStyle2 = {
+    maxHeight: 20, 
+    width: 20,
+    backgroundColor: 'rgb(134, 38, 51)',
+    border: '1px solid rgb(134, 38, 51)',
+    color: 'white',
+    borderRadius: '5px'
+  }
+
+
   static setState() {
     super.setState()
   }
@@ -47,6 +66,14 @@ export default class ShowcaseLayout extends React.Component {
 
   static removeAtIndex(index, showcaseLayout) {
     types.splice(index, 1)
+    generateLayout()
+    showcaseLayout.setState({
+      layouts: { lg: generateLayout() }
+    });
+  }
+
+  static flipAtIndex(index, showcaseLayout) {
+    types[index] *= -1
     generateLayout()
     showcaseLayout.setState({
       layouts: { lg: generateLayout() }
@@ -66,11 +93,11 @@ export default class ShowcaseLayout extends React.Component {
             </span>
           ) : (
 
-            <div style={{ display: 'grid'}}>
-              <img src={images[types[i] - 1]} draggable={false} width={widths[types[i] - 1]} height={1.1 * 172 * heights[Math.abs(types[i]) - 1] / 2} alt="Part 1" style={{ gridRow: 1, gridColumn: 1}} />
-              <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between'}}>
-                <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)} style={{maxHeight: 20, maxWidth: 20}}>x</button>
-                <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)} style={{maxHeight: 20, maxWidth: 20}}>⇌</button>
+            <div style={{ display: 'grid', transform: types[i] > 0 ? '' : 'rotateY(180deg)'}}>
+              <img src={images[Math.abs(types[i]) - 1]} draggable={false} width={widths[Math.abs(types[i]) - 1]} height={1.1 * 172 * heights[Math.abs(types[i]) - 1] / 2} alt={"Part " + types[i]} style={{ gridRow: 1, gridColumn: 1}} />
+              <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between', transform: types[i] > 0 ? '' : 'rotateY(180deg)'}}>
+                <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>x</button>
+                <button onClick={() => ShowcaseLayout.flipAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>{types[i] > 0 ? 'L' : 'R'}</button>
               </div>
 
             </div>
@@ -127,15 +154,6 @@ export default class ShowcaseLayout extends React.Component {
 
   dragging = () => {
     console.log("howdy world")
-  }
-
-  buttonStyle = {
-    minWidth: containerWidth / 2,
-    height: buttonArrayHeight / 3,
-    backgroundColor: 'rgb(134, 38, 51)',
-    border: '1px solid black',
-    color: 'white',
-    borderRadius: '5px'
   }
 
   render() {
