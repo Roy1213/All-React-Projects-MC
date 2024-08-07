@@ -13,7 +13,10 @@ import part5 from './images/part5.png'
 // import { ViewColumn } from "@mui/icons-material";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-let types = [1, 2, 3, 4, 5]
+export class data {
+  static types = [1, 2, 3, 4, 5]
+}
+
 let heights = [2, 3, 2, 4, 2]
 let images = [part1, part2, part3, part4, part5]
 let widths = ['50%', '50%', '50%', '100%', '100%']
@@ -65,7 +68,7 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   static removeAtIndex(index, showcaseLayout) {
-    types.splice(index, 1)
+    data.types.splice(index, 1)
     generateLayout()
     showcaseLayout.setState({
       layouts: { lg: generateLayout() }
@@ -73,7 +76,7 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   static flipAtIndex(index, showcaseLayout) {
-    types[index] *= -1
+    data.types[index] *= -1
     generateLayout()
     showcaseLayout.setState({
       layouts: { lg: generateLayout() }
@@ -93,11 +96,11 @@ export default class ShowcaseLayout extends React.Component {
             </span>
           ) : (
 
-            <div style={{ display: 'grid', transform: types[i] > 0 ? '' : 'rotateY(180deg)'}}>
-              <img src={images[Math.abs(types[i]) - 1]} draggable={false} width={widths[Math.abs(types[i]) - 1]} height={1.1 * 172 * heights[Math.abs(types[i]) - 1] / 2} alt={"Part " + types[i]} style={{ gridRow: 1, gridColumn: 1}} />
-              <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between', transform: types[i] > 0 ? '' : 'rotateY(180deg)'}}>
+            <div style={{ display: 'grid', transform: data.types[i] > 0 ? '' : 'rotateY(180deg)'}}>
+              <img src={images[Math.abs(data.types[i]) - 1]} draggable={false} width={widths[Math.abs(data.types[i]) - 1]} height={1.1 * 172 * heights[Math.abs(data.types[i]) - 1] / 2} alt={"Part " + data.types[i]} style={{ gridRow: 1, gridColumn: 1}} />
+              <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between', transform: data.types[i] > 0 ? '' : 'rotateY(180deg)'}}>
                 <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>x</button>
-                <button onClick={() => ShowcaseLayout.flipAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>{types[i] > 0 ? 'L' : 'R'}</button>
+                <button onClick={() => ShowcaseLayout.flipAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>{data.types[i] > 0 ? 'L' : 'R'}</button>
               </div>
 
             </div>
@@ -135,11 +138,11 @@ export default class ShowcaseLayout extends React.Component {
 
   onNewLayout(height) {
     if (height === -1) {
-      types.shift()
+      data.types.shift()
     } else if (height === -2) {
-      types.pop()
+      data.types.pop()
     } else {
-      types[types.length] = height
+      data.types[data.types.length] = height
     }
     this.setState({
       layouts: { lg: generateLayout() }
@@ -236,8 +239,8 @@ ShowcaseLayout.defaultProps = {
 };
 
 function generateLayout() {
-  return _.map(_.range(0, types.length), function (item, i) {
-    var y = heights[Math.abs(types[i]) - 1] * 2//Math.ceil(Math.random() * 4) + 1;
+  return _.map(_.range(0, data.types.length), function (item, i) {
+    var y = heights[Math.abs(data.types[i]) - 1] * 2//Math.ceil(Math.random() * 4) + 1;
     return {
       x: (_.random(0, 5)) % 12,
       y: Math.floor(i / 6) * y,

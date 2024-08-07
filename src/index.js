@@ -19,6 +19,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ShowcaseLayout from "./ShowcaseLayout";
+import data from "./ShowcaseLayout"
 import './example-styles.css';
 
 export const heights = [1, 2, 3, 4]
@@ -37,7 +38,10 @@ class ExampleLayout extends React.Component {
   stringifyLayout() {
     return this.state.layout.map(function(l) {
       return (
-        <div className="layoutItem" key={l.i} style={{display: 'flex', justifyContent: 'center'}}>
+        // <div className="layoutItem" key={l.i} style={{display: 'flex', justifyContent: 'center'}}>
+        //   <b>{l.i}</b>: [{l.x}, {l.y}, {l.w}, {l.h}]
+        // </div>
+      <div className="layoutItem" key={l.i} style={{display: 'flex', justifyContent: 'center'}}>
           <b>{l.i}</b>: [{l.x}, {l.y}, {l.w}, {l.h}]
         </div>
       );
