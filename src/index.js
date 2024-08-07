@@ -19,8 +19,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ShowcaseLayout from "./ShowcaseLayout";
-import data from "./ShowcaseLayout"
 import './example-styles.css';
+import Data from "./Data";
 
 export const heights = [1, 2, 3, 4]
 
@@ -36,30 +36,20 @@ class ExampleLayout extends React.Component {
   }
 
   stringifyLayout() {
-    return this.state.layout.map(function(l) {
-      return (
-        // <div className="layoutItem" key={l.i} style={{display: 'flex', justifyContent: 'center'}}>
-        //   <b>{l.i}</b>: [{l.x}, {l.y}, {l.w}, {l.h}]
-        // </div>
-      <div className="layoutItem" key={l.i} style={{display: 'flex', justifyContent: 'center'}}>
-          <b>{l.i}</b>: [{l.x}, {l.y}, {l.w}, {l.h}]
-        </div>
-      );
-    });
+    return Data.generateContent()
+    // return this.state.layout.map(function(l) {
+    //   return Data.generateContent()
+    //   // return (
+    //   //   <div className="layoutItem" key={l.i} style={{display: 'flex', justifyContent: 'center'}}>
+    //   //     <b>{l.i}</b>: [{l.x}, {l.y}, {l.w}, {l.h}]
+    //   //   </div>
+    //   // );
+    // });
   }
 
   render() {
     return (
-      <div style={{display: 'flex',
-        justifyContent: 'center', /*overflow: 'hidden'*/ maxHeight: 700, }}>
-        <div className="layoutJSON" style={{overflowY: 'auto'}}>
-          Displayed as <code>[x, y, w, h]</code>:
-          <div className="columns">{this.stringifyLayout()}</div>
-        </div>
-        <div /*style={{overflowY: 'auto'}}*/>
-          <ShowcaseLayout onLayoutChange={this.onLayoutChange}/>
-        </div>
-      </div>
+      <ShowcaseLayout onLayoutChange={this.onLayoutChange}/>
     );
   }
 }

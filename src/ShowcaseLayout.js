@@ -10,12 +10,9 @@ import part2 from './images/part2.png'
 import part3 from './images/part3.png'
 import part4 from './images/part4.png'
 import part5 from './images/part5.png'
+import Data from "./Data";
 // import { ViewColumn } from "@mui/icons-material";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
-
-export class data {
-  static types = [1, 2, 3, 4, 5]
-}
 
 let heights = [2, 3, 2, 4, 2]
 let images = [part1, part2, part3, part4, part5]
@@ -50,7 +47,7 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   static buttonStyle2 = {
-    maxHeight: 20, 
+    maxHeight: 20,
     width: 20,
     backgroundColor: 'rgb(134, 38, 51)',
     border: '1px solid rgb(134, 38, 51)',
@@ -68,7 +65,7 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   static removeAtIndex(index, showcaseLayout) {
-    data.types.splice(index, 1)
+    Data.types.splice(index, 1)
     generateLayout()
     showcaseLayout.setState({
       layouts: { lg: generateLayout() }
@@ -76,7 +73,7 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   static flipAtIndex(index, showcaseLayout) {
-    data.types[index] *= -1
+    Data.types[index] *= -1
     generateLayout()
     showcaseLayout.setState({
       layouts: { lg: generateLayout() }
@@ -96,11 +93,11 @@ export default class ShowcaseLayout extends React.Component {
             </span>
           ) : (
 
-            <div style={{ display: 'grid', transform: data.types[i] > 0 ? '' : 'rotateY(180deg)'}}>
-              <img src={images[Math.abs(data.types[i]) - 1]} draggable={false} width={widths[Math.abs(data.types[i]) - 1]} height={1.1 * 172 * heights[Math.abs(data.types[i]) - 1] / 2} alt={"Part " + data.types[i]} style={{ gridRow: 1, gridColumn: 1}} />
-              <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between', transform: data.types[i] > 0 ? '' : 'rotateY(180deg)'}}>
+            <div style={{ display: 'grid', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
+              <img src={images[Math.abs(Data.types[i]) - 1]} draggable={false} width={widths[Math.abs(Data.types[i]) - 1]} height={1.1 * 172 * heights[Math.abs(Data.types[i]) - 1] / 2} alt={"Part " + Data.types[i]} style={{ gridRow: 1, gridColumn: 1 }} />
+              <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
                 <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>x</button>
-                <button onClick={() => ShowcaseLayout.flipAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>{data.types[i] > 0 ? 'L' : 'R'}</button>
+                <button onClick={() => ShowcaseLayout.flipAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>{Data.types[i] > 0 ? 'L' : 'R'}</button>
               </div>
 
             </div>
@@ -138,22 +135,20 @@ export default class ShowcaseLayout extends React.Component {
 
   onNewLayout(height) {
     if (height === -1) {
-      data.types.shift()
-    } else if (height === -2) {
-      data.types.pop()
+      Data.types = []
     } else {
-      data.types[data.types.length] = height
+      Data.types[Data.types.length] = height
     }
     this.setState({
       layouts: { lg: generateLayout() }
     });
   }
 
-  onDragStop = () => {
-    console.log("howdy hello world")
-    //this.setState({ isDragging: false, height: 10 });
+  // onDragStop = () => {
+  //   console.log("howdy hello world")
+  //   //this.setState({ isDragging: false, height: 10 });
 
-  };
+  // };
 
   dragging = () => {
     console.log("howdy world")
@@ -161,7 +156,37 @@ export default class ShowcaseLayout extends React.Component {
 
   render() {
     return (
-      <div style={{ width: containerWidth, maxHeight: containerHeight }}>
+      <div style={{display: 'flex',
+        justifyContent: 'center', /*overflow: 'hidden'*/ maxHeight: 700, }}>
+        <div className="layoutJSON" style={{overflowY: 'auto'}}>
+          Displayed as Type, Number, Quantity
+          
+          <div className="columns">{Data.generateContent()}</div>
+          <br/>
+          <br/>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+            <Button onClick={() => this.onNewLayout(1)} style={this.buttonStyle}>Add Type 1</Button>
+            <Button onClick={() => this.onNewLayout(2)} style={this.buttonStyle}>Add Type 2</Button>
+          </div>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+            <Button onClick={() => this.onNewLayout(3)} style={this.buttonStyle}>Add Type 3</Button>
+            <Button onClick={() => this.onNewLayout(4)} style={this.buttonStyle}>Add Type 4</Button>
+          </div>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+            <Button onClick={() => this.onNewLayout(5)} style={this.buttonStyle}>Add Type 5</Button>
+            <Button onClick={() => this.onNewLayout(-1)} style={this.buttonStyle}>Clear All</Button>
+          </div>
+        </div>
+        <div style={{ width: containerWidth, maxHeight: containerHeight }}>
         {/* <div>
           Current Breakpoint: {this.state.currentBreakpoint} ({
             this.props.cols[this.state.currentBreakpoint]
@@ -174,34 +199,7 @@ export default class ShowcaseLayout extends React.Component {
         </div> */}
 
         <div style={{ borderTopRightRadius: '10px', height: buttonArrayHeight }}>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center'
-          }}>
-            <Button onClick={() => this.onNewLayout(1)} style={this.buttonStyle}>+ H1</Button>
-            <Button onClick={() => this.onNewLayout(2)} style={this.buttonStyle}>+ H2</Button>
-          </div>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center'
-          }}>
-            <Button onClick={() => this.onNewLayout(3)} style={this.buttonStyle}>+ H3</Button>
-            <Button onClick={() => this.onNewLayout(4)} style={this.buttonStyle}>+ H4</Button>
-          </div>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center'
-          }}>
-            <Button onClick={() => this.onNewLayout(5)} style={this.buttonStyle}>+ H5</Button>
-            <Button onClick={() => this.onNewLayout(-2)} style={this.buttonStyle}> </Button>
-          </div>
-        </div>
-
-
-        {/* <button onClick={this.onCompactTypeChange}>
-          Change Compaction Type
-        </button> */}
-        <div style={{ maxHeight: containerHeight - buttonArrayHeight, overflowX: 'hidden', overflowY: 'auto' }}>
+          <div style={{ maxHeight: containerHeight - buttonArrayHeight, overflowX: 'hidden', overflowY: 'auto' }}>
           <ResponsiveReactGridLayout
             {...this.props}
             layouts={this.state.layouts}
@@ -221,6 +219,17 @@ export default class ShowcaseLayout extends React.Component {
             {this.generateDOM(this)}
           </ResponsiveReactGridLayout>
         </div>
+        
+      </div>
+
+      
+        </div>
+
+
+        {/* <button onClick={this.onCompactTypeChange}>
+          Change Compaction Type
+        </button> */}
+        
       </div>
     );
   }
@@ -239,8 +248,8 @@ ShowcaseLayout.defaultProps = {
 };
 
 function generateLayout() {
-  return _.map(_.range(0, data.types.length), function (item, i) {
-    var y = heights[Math.abs(data.types[i]) - 1] * 2//Math.ceil(Math.random() * 4) + 1;
+  return _.map(_.range(0, Data.types.length), function (item, i) {
+    var y = heights[Math.abs(Data.types[i]) - 1] * 2//Math.ceil(Math.random() * 4) + 1;
     return {
       x: (_.random(0, 5)) % 12,
       y: Math.floor(i / 6) * y,
