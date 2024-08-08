@@ -53,7 +53,7 @@ export default class ShowcaseLayout extends React.Component {
     backgroundColor: 'rgb(134, 38, 51)',
     border: '1px solid rgb(134, 38, 51)',
     color: 'white',
-    borderRadius: '5px',
+    borderRadius: '3px',
     fontSize: '10px'
   }
 
@@ -189,6 +189,7 @@ export default class ShowcaseLayout extends React.Component {
             <Button onClick={() => this.onNewLayout(5)} style={this.buttonStyle}>Add Type 5</Button>
             <Button onClick={() => this.onNewLayout(-1)} style={this.buttonStyle}>Delete All</Button>
           </div>
+          {Data.generateWarnings()}
         </div>
         <div style={{ width: containerWidth, maxHeight: containerHeight}}>
           {/* <div>
@@ -261,7 +262,7 @@ function generateLayout() {
       w: 2,
       h: y,
       i: i.toString(),
-      static: false
+      static: false,
     };
   });
 }
