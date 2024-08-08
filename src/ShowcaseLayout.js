@@ -14,10 +14,11 @@ import Data from "./Data";
 // import { ViewColumn } from "@mui/icons-material";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-let heights = [2, 3, 2, 4, 2]
+let heights = [2, 3, 2, 4, 2] * 1
+let heightMultiplier = 1
 let images = [part1, part2, part3, part4, part5]
 let widths = ['50%', '50%', '50%', '100%', '100%']
-let containerWidth = 250
+let containerWidth = 100
 let containerHeight = 700
 let buttonArrayHeight = 75
 
@@ -249,7 +250,7 @@ ShowcaseLayout.defaultProps = {
 
 function generateLayout() {
   return _.map(_.range(0, Data.types.length), function (item, i) {
-    var y = heights[Math.abs(Data.types[i]) - 1] * 2//Math.ceil(Math.random() * 4) + 1;
+    var y = heights[Math.abs(Data.types[i]) - 1] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
     return {
       x: (_.random(0, 5)) % 12,
       y: Math.floor(i / 6) * y,
