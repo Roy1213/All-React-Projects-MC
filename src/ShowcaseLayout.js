@@ -39,7 +39,7 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   buttonStyle = {
-    minWidth: containerWidth / 2,
+    minWidth: containerWidth / 5,
     height: buttonArrayHeight / 3,
     backgroundColor: 'rgb(134, 38, 51)',
     border: '1px solid black',
@@ -57,6 +57,42 @@ export default class ShowcaseLayout extends React.Component {
     fontSize: '10px'
   }
 
+  formatPrice = () => {
+    let USDollar = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
+    return USDollar.format(Data.totalPrice).toString()
+  }
+
+  generateContent = () => {
+    let typesNum = [0, 0, 0, 0, 0]
+    Data.totalPrice = 0
+    for (let i = 0; i < Data.types.length; i++) {
+      typesNum[Math.abs(Data.types[i]) - 1]++
+      Data.totalPrice += Data.typePrices[Math.abs(Data.types[i]) - 1]
+    }
+    const rows = []
+    for (let i = 0; i < 5; i++) {
+      rows.push(
+        <div key={i} style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          paddingLeft: 10,
+          paddingRight: 10
+        }}>
+          <p>T{i + 1}: </p>  <p>{Data.typeNames[i]}</p> <p>{typesNum[i]}</p> <p><Button onClick={() => this.onNewLayout(i + 1)} style={this.buttonStyle}>+</Button></p><p><Button onClick={() => ShowcaseLayout.removeType(i + 1, this)} style={this.buttonStyle}>-</Button></p>
+        </div>)
+    }
+    rows.push(
+      <div key={6} style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 20
+      }}>
+        <b>Total Price:</b> {this.formatPrice()}
+      </div>)
+    return <div>{rows}</div>
+  }
 
   static setState() {
     super.setState()
@@ -73,10 +109,16 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   static removeAtIndex(index, showcaseLayout) {
-    Data.types.splice(index, 1)
-    showcaseLayout.setState({
-      layouts: { lg: generateLayout() }
-    });
+    if (index != -1) {
+      Data.types.splice(index, 1)
+      showcaseLayout.setState({
+        layouts: { lg: generateLayout() }
+      });
+    }
+  }
+
+  static removeType(type, showcaseLayout) {
+    ShowcaseLayout.removeAtIndex(Data.types.indexOf(Math.abs(type)), showcaseLayout)
   }
 
   static flipAtIndex(index, showcaseLayout) {
@@ -151,6 +193,8 @@ export default class ShowcaseLayout extends React.Component {
     });
   }
 
+
+
   // onDragStop = () => {
   //   console.log("howdy hello world")
   //   //this.setState({ isDragging: false, height: 10 });
@@ -167,13 +211,13 @@ export default class ShowcaseLayout extends React.Component {
         display: 'flex',
         justifyContent: 'center', /*overflow: 'hidden'*/ height: containerHeight
       }}>
-        <div className="layoutJSON" style={{ overflowY: 'auto'}}>
+        <div className="layoutJSON" style={{ overflowY: 'auto' }}>
           Displayed as Type, Number, Quantity
 
-          <div className="columns">{Data.generateContent()}</div>
+          <div className="columns">{this.generateContent()}</div>
           <br />
           <br />
-          <div style={{
+          {/* <div style={{
             display: 'flex',
             justifyContent: 'center'
           }}>
@@ -186,13 +230,13 @@ export default class ShowcaseLayout extends React.Component {
           }}>
             <Button onClick={() => this.onNewLayout(3)} style={this.buttonStyle}>Add Type 3</Button>
             <Button onClick={() => this.onNewLayout(4)} style={this.buttonStyle}>Add Type 4</Button>
-          </div>
+          </div> */}
           <div style={{
             display: 'flex',
             justifyContent: 'center'
           }}>
-            <Button onClick={() => this.onNewLayout(5)} style={this.buttonStyle}>Add Type 5</Button>
-            <Button onClick={() => this.onNewLayout(-1)} style={this.buttonStyle}>Delete All</Button>
+            {/* <Button onClick={() => this.onNewLayout(5)} style={this.buttonStyle}>Add Type 5</Button> */}
+            <Button onClick={() => this.onNewLayout(-1)} style={this.buttonStyle}>Clear</Button>
           </div>
           <div style={{
             display: 'flex',
@@ -201,7 +245,7 @@ export default class ShowcaseLayout extends React.Component {
             {Data.generateWarnings()}
           </div>
         </div>
-        <div style={{ width: containerWidth, maxHeight: containerHeight}}>
+        <div style={{ width: containerWidth, maxHeight: containerHeight }}>
           {/* <div>
           Current Breakpoint: {this.state.currentBreakpoint} ({
             this.props.cols[this.state.currentBreakpoint]
@@ -213,7 +257,7 @@ export default class ShowcaseLayout extends React.Component {
           {_.capitalize(this.state.compactType) || "No Compaction"}
         </div> */}
 
-          <div style={{ borderTopRightRadius: '10px'}}>
+          <div style={{ borderTopRightRadius: '10px' }}>
             <div style={{ maxHeight: containerHeight, overflowX: 'hidden', overflowY: 'auto' }}>
               <ResponsiveReactGridLayout
                 {...this.props}
@@ -229,7 +273,7 @@ export default class ShowcaseLayout extends React.Component {
                 useCSSTransforms={this.state.mounted}
                 compactType={this.state.compactType}
                 preventCollision={!this.state.compactType}
-                style={{minHeight: containerHeight, width: Data.types.length !== 0 ? containerWidth : 15}}
+                style={{ minHeight: containerHeight, width: Data.types.length !== 0 ? containerWidth : 15 }}
               // style={{width: containerWidth / 2}}
               >
                 {this.generateDOM(this)}
