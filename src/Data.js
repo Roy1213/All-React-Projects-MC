@@ -81,6 +81,6 @@ export default class Data {
         }
       }
     }
-    return <p>{buildWarning ? 'Warning' : 'All Good!'}</p>
+    return <p style={{color: buildWarning ? 'red' : 'lime'}}>{buildWarning ? 'Warning: Structure is Unstable' : 'All Good!'}</p>
   }
 }

@@ -194,7 +194,12 @@ export default class ShowcaseLayout extends React.Component {
             <Button onClick={() => this.onNewLayout(5)} style={this.buttonStyle}>Add Type 5</Button>
             <Button onClick={() => this.onNewLayout(-1)} style={this.buttonStyle}>Delete All</Button>
           </div>
-          {Data.generateWarnings()}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+            {Data.generateWarnings()}
+          </div>
         </div>
         <div style={{ width: containerWidth, maxHeight: containerHeight}}>
           {/* <div>
