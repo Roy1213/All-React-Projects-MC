@@ -51,6 +51,8 @@ class ExampleLayout extends React.Component {
   render() {
     return (
       <div>
+        <br/>
+        <br/>
         {Data.updateArray()}
         <ShowcaseLayout onLayoutChange={this.onLayoutChange}/>
       </div>
