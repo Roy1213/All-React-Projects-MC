@@ -212,7 +212,7 @@ export default class ShowcaseLayout extends React.Component {
         justifyContent: 'center', /*overflow: 'hidden'*/ height: containerHeight
       }}>
         <div className="layoutJSON" style={{ overflowY: 'auto' }}>
-          Displayed as Type, Number, Quantity
+          Type, Number, Quantity, Add, Remove
 
           <div className="columns">{this.generateContent()}</div>
           <br />
