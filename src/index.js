@@ -33,23 +33,27 @@ class ExampleLayout extends React.Component {
 
   onLayoutChange(layout) {
     this.setState({ layout: layout });
+    Data.globalLayout = layout
   }
 
-  stringifyLayout() {
-    return Data.generateContent()
-    // return this.state.layout.map(function(l) {
-    //   return Data.generateContent()
-    //   // return (
-    //   //   <div className="layoutItem" key={l.i} style={{display: 'flex', justifyContent: 'center'}}>
-    //   //     <b>{l.i}</b>: [{l.x}, {l.y}, {l.w}, {l.h}]
-    //   //   </div>
-    //   // );
-    // });
-  }
+  // stringifyLayout() {
+  //   //return Data.generateContent()
+  //   return this.state.layout.map(function(l) {
+  //     //return Data.generateContent()
+  //     return (
+  //       <div className="layoutItem" key={l.i} style={{display: 'flex', justifyContent: 'center'}}>
+  //         <b>{l.i}</b>: [{l.x}, {l.y}, {l.w}, {l.h}]
+  //       </div>
+  //     );
+  //   });
+  // }
 
   render() {
     return (
-      <ShowcaseLayout onLayoutChange={this.onLayoutChange}/>
+      <div>
+        {Data.updateArray()}
+        <ShowcaseLayout onLayoutChange={this.onLayoutChange}/>
+      </div>
     );
   }
 }

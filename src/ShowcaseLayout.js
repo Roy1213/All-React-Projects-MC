@@ -66,9 +66,14 @@ export default class ShowcaseLayout extends React.Component {
     this.setState({ mounted: true });
   }
 
+  static syncArrays() {
+    for (let i = 0; i < Data.types.length; i++) {
+      Data.types[i] = Data.typesUpdated[i]
+    }
+  }
+
   static removeAtIndex(index, showcaseLayout) {
     Data.types.splice(index, 1)
-    generateLayout()
     showcaseLayout.setState({
       layouts: { lg: generateLayout() }
     });
@@ -76,7 +81,7 @@ export default class ShowcaseLayout extends React.Component {
 
   static flipAtIndex(index, showcaseLayout) {
     Data.types[index] *= -1
-    generateLayout()
+    Data.updateArray()
     showcaseLayout.setState({
       layouts: { lg: generateLayout() }
     });
