@@ -5,6 +5,7 @@ export default class Data {
   static typePrices = [1300, 1800, 1300, 4100, 2900]
   static totalPrice = 0
   static globalLayout = []
+  static height = 0
   static updateArray() {
     Data.typesUpdated = []
     var min = Number.MIN_SAFE_INTEGER

@@ -11,6 +11,15 @@ import part3 from './images/part3.png'
 import part4 from './images/part4.png'
 import part5 from './images/part5.png'
 import Data from "./Data";
+import Box from '@mui/material/Box';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import { useState } from 'react';
+import FormControl from "@mui/material/FormControl";
+import Remote from "./Remote";
+import InputLabel from "@mui/material/InputLabel";
+import { Height } from "@mui/icons-material";
 // import { ViewColumn } from "@mui/icons-material";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -214,6 +223,8 @@ export default class ShowcaseLayout extends React.Component {
         <div className="layoutJSON" style={{ overflowY: 'auto' }}>
           Type, Number, Quantity, Add, Remove
 
+          <p>{"Height: " + Data.height}</p>
+
           <div className="columns">{this.generateContent()}</div>
           <br />
           <br />
@@ -231,11 +242,18 @@ export default class ShowcaseLayout extends React.Component {
             <Button onClick={() => this.onNewLayout(3)} style={this.buttonStyle}>Add Type 3</Button>
             <Button onClick={() => this.onNewLayout(4)} style={this.buttonStyle}>Add Type 4</Button>
           </div> */}
+
+          <HeightInput/>
+          <br/>
+          <br/>
+          <br/>
+
           <div style={{
             display: 'flex',
             justifyContent: 'center'
           }}>
             {/* <Button onClick={() => this.onNewLayout(5)} style={this.buttonStyle}>Add Type 5</Button> */}
+            {/* <Remote/> */}
             <Button onClick={() => this.onNewLayout(-1)} style={this.buttonStyle}>Clear</Button>
           </div>
           <div style={{
@@ -306,6 +324,109 @@ ShowcaseLayout.defaultProps = {
   cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
   initialLayout: generateLayout()
 };
+
+function HeightInput() {
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+  }
+
+  const buttonStyle3 = {
+    minWidth: containerWidth / 5,
+    minHeight: '100%',
+    backgroundColor: 'rgb(134, 38, 51)',
+    border: '1px solid black',
+    color: 'white',
+    borderRadius: '5px'
+  };
+
+  const [val, setVal] = useState('')
+  const handleChange = (event) => {
+      var value = event.target.value
+      var periodsFound = 0;
+      let periodsAllowed = 0;
+      let min = 0;
+      let max = 1000
+
+      for (let i = 0; i < value.length; i++) {
+          if (value.substring(i, i + 1) === ".") {
+              periodsFound++
+          }
+          if (periodsFound > periodsAllowed || "0123456789.".indexOf(value.substring(i, i + 1)) === -1) {
+              value = value.substring(0, i) + value.substring(i + 1)
+              periodsFound--
+              i--
+          }
+          if (periodsFound === 1 && value.substring(i, i + 1) !== ".") {
+              value = value.substring(0, i + 1)
+          }
+      }
+      if (parseFloat(value) > max) {
+          value = max
+      } else if (parseFloat(value) < min) {
+          value = min
+      }
+      setVal(value)
+  };
+
+  const pushFormData = () => {
+    Data.height = val
+    console.log(val)
+  }
+
+  return (
+      <Box sx={{ display: 'flex'}}>
+          <div style={{display: 'flex', justifyContent: 'space-between', minWidth: '100%'}}> 
+              <FormControl sx={{ width: '20ch' }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password" style={{ color: 'white' }}>Height Input</InputLabel>
+                  <OutlinedInput
+                      value={val}
+                      autoComplete='off'
+                      autoCapitalize='off'
+                      label='Height Input'
+                      sx={{
+                          //height: '50px',
+                          color: 'white',
+                          //minWidth: 300,
+                          '.MuiOutlinedInput-notchedOutline': {
+                              borderColor: 'white',
+                          },
+                          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                              border: '2px solid rgb(134, 38, 51)'
+                          },
+                          '&:hover .MuiOutlinedInput-notchedOutline': {
+                              border: '3px solid rgb(134, 38, 51)'
+                          },
+                          '.MuiSvgIcon-root ': {
+                              fill: "white !important",
+                          },
+                      }}
+                      onChange={handleChange}
+                      id="outlined-adornment-weight"
+                      endAdornment={<InputAdornment position="middle"><p style={{
+                          color: 'white'
+                      }}>ft</p></InputAdornment>}
+                      aria-describedby="outlined-weight-helper-text"
+                      inputProps={{
+                          'aria-label': 'weight',
+                      }}
+                  />
+                  {/* <FormHelperText id="outlined-weight-helper-text" style={{
+                      color: 'white', minWidth: '150px'
+                  }}>{""}</FormHelperText> */}
+              </FormControl>
+              <Button onClick={() => pushFormData()} style={buttonStyle3}>Enter</Button>
+          </div>
+      </Box>
+  );
+}
+
+
+
 
 function generateLayout() {
   return _.map(_.range(0, Data.types.length), function (item, i) {
