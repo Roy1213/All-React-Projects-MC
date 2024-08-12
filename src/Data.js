@@ -81,7 +81,6 @@ export default class Data {
         heightFromPlatform = 10
       }
     }
-    console.log(Data.types)
     Data.correctOrientation()
     Data.types.reverse()
   }
@@ -116,5 +115,7 @@ export default class Data {
     for (let i = 0; i < Data.types.length; i++) {
       Data.types[i] *= -1
     }
+
+    console.log(Data.types)
   }
 }

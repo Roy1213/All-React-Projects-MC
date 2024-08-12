@@ -128,7 +128,11 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   static removeType(type, showcaseLayout) {
-    ShowcaseLayout.removeAtIndex(Data.types.indexOf(Math.abs(type)), showcaseLayout)
+    var index = Data.types.indexOf(-1 * type)
+    if (index == -1) {
+      index = Data.types.indexOf(type)
+    }
+    ShowcaseLayout.removeAtIndex(index, showcaseLayout)
   }
 
   static flipAtIndex(index, showcaseLayout) {
