@@ -3,6 +3,7 @@ export default class Data {
   static typesUpdated = [1, 2, 3, 4, 5]
   static typeNames = ['BELC-05-0100', 'BELC-10-0100', 'BELC-10-0000', 'BELC-20-0200', 'BELC-10-0201']
   static typePrices = [1300, 1800, 1300, 4100, 2900]
+  static typeHeights = [10, 15, 10, 20, 10]
   static totalPrice = 0
   static globalLayout = []
   static height = 0
@@ -48,5 +49,12 @@ export default class Data {
       }
     }
     return <p style={{color: buildWarning ? 'red' : 'lime'}}>{buildWarning ? 'Warning: Structure is Unstable' : 'All Good!'}</p>
+  }
+
+  static createBuild() {
+    Data.types = []
+    for (let i = 0; i < Data.height / 10; i++) {
+      Data.types[i] = 1
+    }
   }
 }

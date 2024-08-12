@@ -30,6 +30,7 @@ let widths = ['50%', '50%', '50%', '100%', '100%']
 let containerWidth = 100
 let containerHeight = 850
 let buttonArrayHeight = 75
+var showcaseLayout = null
 
 export default class ShowcaseLayout extends React.Component {
   constructor(props) {
@@ -189,6 +190,7 @@ export default class ShowcaseLayout extends React.Component {
 
   onLayoutChange(layout, layouts) {
     this.props.onLayoutChange(layout, layouts);
+    showcaseLayout = this
   }
 
   onNewLayout(height) {
@@ -374,8 +376,13 @@ function HeightInput() {
   };
 
   const pushFormData = () => {
-    Data.height = val
-    console.log(val)
+    Data.height = Math.ceil(val / 5.0) * 5
+    Data.createBuild()
+    showcaseLayout.setState({
+      layouts: { lg: generateLayout() }
+    });
+    generateLayout()
+    
   }
 
   return (
