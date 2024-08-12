@@ -225,7 +225,7 @@ export default class ShowcaseLayout extends React.Component {
         <div className="layoutJSON" style={{ overflowY: 'auto' }}>
           Type, Number, Quantity, Add, Remove
 
-          <p>{"Height: " + Data.height}</p>
+          {/* <p>{"Height: " + Data.height}</p> */}
 
           <div className="columns">{this.generateContent()}</div>
           <br />
@@ -439,8 +439,8 @@ function generateLayout() {
   return _.map(_.range(0, Data.types.length), function (item, i) {
     var y = heights[Math.abs(Data.types[i]) - 1] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
     return {
-      x: (_.random(0, 5)) % 12,
-      y: Math.floor(i / 6) * y,
+      x: 0,
+      y: 100 * i,
       w: 2,
       h: y,
       i: i.toString(),

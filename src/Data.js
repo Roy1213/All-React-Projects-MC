@@ -52,9 +52,69 @@ export default class Data {
   }
 
   static createBuild() {
-    Data.types = []
-    for (let i = 0; i < Data.height / 10; i++) {
-      Data.types[i] = 1
+    Data.types = [(Data.height % 10) / 5 + 1]
+    var currentHeight = Data.typeHeights[Data.types[0] - 1]
+    var heightFromPlatform = currentHeight
+    var lastWasPlatform = false
+    //var platformAdded = false
+    while (currentHeight < Data.height) {
+      if (Data.height - currentHeight == 20) {
+        if (heightFromPlatform + 20 <= 30) {
+          Data.types.push(3)
+          Data.types.push(3)
+        } else {
+          Data.types.push(4)
+        }
+        break;
+      } else if (lastWasPlatform || Data.height - currentHeight == 10) {
+        Data.types.push(3)
+        lastWasPlatform = false
+        //break;
+      } else {
+        Data.types.push(4)
+        lastWasPlatform = true
+      }
+      //lastWasPlatform = Data.types[Data.types.length - 1] == 4
+      heightFromPlatform += Data.typeHeights[Data.types[Data.types.length - 1] - 1]
+      currentHeight += Data.typeHeights[Data.types[Data.types.length - 1] - 1]
+      if (lastWasPlatform) {
+        heightFromPlatform = 10
+      }
+    }
+    console.log(Data.types)
+    Data.correctOrientation()
+    Data.types.reverse()
+  }
+
+  // static correctOrientation() {
+  //   let last = Data.types[Data.types.length - 1]
+  //   Data.types[Data.types.length - 1] = -1 * Math.abs(last)
+  //   for (let i = Data.types.length; i > 0; i--) {
+  //     var type = Data.types[i]
+  //     if (Math.abs(type) == 4) {
+  //       type *= -1
+  //     }
+  //     if (!(type < 0 && Data.types[i - 1] < 0 || type > 0 && Data.types[i - 1] > 0)) {
+  //       Data.types[i - 1] *= -1
+  //     }
+  //   }
+  // }
+
+  static correctOrientation() {
+    //let last = Data.types[Data.types.length - 1]
+    //Data.types[Data.types.length - 1] = -1 * Math.abs(last)
+    for (let i = Data.types.length - 1; i > 0; i--) {
+      var type = Data.types[i]
+      if (Math.abs(type) == 4) {
+        type *= -1
+      }
+      if (!(type < 0 && Data.types[i - 1] < 0 || type > 0 && Data.types[i - 1] > 0)) {
+        Data.types[i - 1] *= -1
+      }
+    }
+    if (Data.types[Data.types.length - 1] > 0)
+    for (let i = 0; i < Data.types.length; i++) {
+      Data.types[i] *= -1
     }
   }
 }
