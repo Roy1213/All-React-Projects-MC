@@ -14,20 +14,17 @@ export default class Data {
     var index = -10
     var foundNew = true
     console.log("happening")
+    console.log(Data.globalLayout)
     while (foundNew) {
-      //console.log('testing')
       foundNew = false
       Data.globalLayout.map(function(l) {
-        console.log(l.i)
-        if (!l.static && l.y > min && l.y < min2) {
-          console.log("Happened")
+        if (l.x == 0 && l.y > min && l.y < min2) {
           min2 = l.y
           index = parseInt(l.i)
           foundNew = true
         }
       });
       if (foundNew) {
-        //console.log(index)
         Data.typesUpdated[Data.typesUpdated.length] = Data.types[index]
         min = min2
         min2 = Number.MAX_SAFE_INTEGER

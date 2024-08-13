@@ -22,8 +22,6 @@ import ShowcaseLayout from "./ShowcaseLayout";
 import './example-styles.css';
 import Data from "./Data";
 
-export const heights = [1, 2, 3, 4]
-
 class ExampleLayout extends React.Component {
   constructor(props) {
     super(props);

@@ -195,10 +195,12 @@ export default class ShowcaseLayout extends React.Component {
   onLayoutChange(layout, layouts) {
     this.props.onLayoutChange(layout, layouts);
     showcaseLayout = this
+    //Data.globalLayout = layout
     //Data.updateArray()
   }
 
   onNewLayout(type) {
+    Data.calculateHeight()
     if (type === -1) {
       Data.types = []
     } else {
@@ -438,8 +440,8 @@ function HeightInput() {
 }
 
 function generateLayout() {
-  Data.calculateHeight()
-  return _.map(_.range(0, Data.types.length + Data.height / Data.typeHeights[3]), function (item, i) {
+  return _.map(_.range(0, Data.types.length + Math.floor(Data.height / Data.typeHeights[3])), function (item, i) {
+    console.log(i)
       if (i < Data.types.length) {
         var y = heights[Math.abs(Data.types[i]) - 1] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
         return {
@@ -451,7 +453,8 @@ function generateLayout() {
           static: false,
         }
       } else {
-        var y = heights[3] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
+        //var y = heights[3] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
+        var y = heights[Math.abs(3)] * heightMultiplier
         return {
           x: 1,
           y: 0,
