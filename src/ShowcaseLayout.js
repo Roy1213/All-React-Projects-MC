@@ -27,7 +27,7 @@ let heights = [4, 6, 4, 8, 4]
 let heightMultiplier = 0.5
 let images = [part1, part2, part3, part4, part5]
 let widths = ['50%', '50%', '50%', '100%', '100%']
-let containerWidth = 100
+let containerWidth = 200
 let containerHeight = 850
 let buttonArrayHeight = 75
 var showcaseLayout = null
@@ -195,13 +195,14 @@ export default class ShowcaseLayout extends React.Component {
   onLayoutChange(layout, layouts) {
     this.props.onLayoutChange(layout, layouts);
     showcaseLayout = this
+    //Data.updateArray()
   }
 
-  onNewLayout(height) {
-    if (height === -1) {
+  onNewLayout(type) {
+    if (type === -1) {
       Data.types = []
     } else {
-      Data.types[Data.types.length] = height
+      Data.types[Data.types.length] = type
     }
     this.setState({
       layouts: { lg: generateLayout() }
@@ -436,19 +437,30 @@ function HeightInput() {
   );
 }
 
-
-
-
 function generateLayout() {
-  return _.map(_.range(0, Data.types.length), function (item, i) {
-    var y = heights[Math.abs(Data.types[i]) - 1] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
-    return {
-      x: 0,
-      y: 100 * i,
-      w: 2,
-      h: y,
-      i: i.toString(),
-      static: false,
-    };
+  Data.calculateHeight()
+  return _.map(_.range(0, Data.types.length + Data.height / Data.typeHeights[3]), function (item, i) {
+      if (i < Data.types.length) {
+        var y = heights[Math.abs(Data.types[i]) - 1] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
+        return {
+          x: 0,
+          y: i,
+          w: 1,
+          h: y,
+          i: i.toString(),
+          static: false,
+        }
+      } else {
+        var y = heights[3] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
+        return {
+          x: 1,
+          y: 0,
+          w: 1,
+          h: y,
+          i: i.toString(),
+          static: true,
+        };
+      }
+      
   });
 }

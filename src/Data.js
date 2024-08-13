@@ -13,18 +13,21 @@ export default class Data {
     var min2 = Number.MAX_SAFE_INTEGER
     var index = -10
     var foundNew = true
+    console.log("happening")
     while (foundNew) {
       //console.log('testing')
       foundNew = false
       Data.globalLayout.map(function(l) {
-        if (l.y > min && l.y < min2) {
+        console.log(l.i)
+        if (!l.static && l.y > min && l.y < min2) {
+          console.log("Happened")
           min2 = l.y
           index = parseInt(l.i)
           foundNew = true
         }
       });
       if (foundNew) {
-        console.log(index)
+        //console.log(index)
         Data.typesUpdated[Data.typesUpdated.length] = Data.types[index]
         min = min2
         min2 = Number.MAX_SAFE_INTEGER
@@ -49,6 +52,14 @@ export default class Data {
       }
     }
     return <p style={{color: buildWarning ? 'red' : 'lime'}}>{buildWarning ? 'Warning: Structure is Unstable' : 'All Good!'}</p>
+  }
+
+  static calculateHeight() {
+    var totalHeight = 0
+    for (let i = 0; i < Data.types.length; i++) {
+      totalHeight += Data.typeHeights[Data.types[i] - 1]
+    }
+    Data.height = totalHeight
   }
 
   static createBuild() {
@@ -116,6 +127,6 @@ export default class Data {
       Data.types[i] *= -1
     }
 
-    console.log(Data.types)
+    //console.log(Data.types)
   }
 }
