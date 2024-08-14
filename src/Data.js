@@ -6,7 +6,8 @@ export default class Data {
   static typeHeights = [10, 15, 10, 20, 10]
   static totalPrice = 0
   static globalLayout = []
-  static height = 0
+  static height = 65
+  static counter = 0
   static updateArray() {
     Data.typesUpdated = []
     var min = Number.MIN_SAFE_INTEGER
@@ -18,7 +19,7 @@ export default class Data {
     while (foundNew) {
       foundNew = false
       Data.globalLayout.map(function(l) {
-        if (l.x == 0 && l.y > min && l.y < min2) {
+        if (l.x == 0 && l.static == false && l.y > min && l.y < min2) {
           min2 = l.y
           index = parseInt(l.i)
           foundNew = true
@@ -31,6 +32,8 @@ export default class Data {
       }
     }
     console.log(Data.typesUpdated)
+    console.log(Data.counter)
+    Data.counter++
   }
 
 
@@ -54,7 +57,7 @@ export default class Data {
   static calculateHeight() {
     var totalHeight = 0
     for (let i = 0; i < Data.types.length; i++) {
-      totalHeight += Data.typeHeights[Data.types[i] - 1]
+      totalHeight += Data.typeHeights[Math.abs(Data.types[i]) - 1]
     }
     Data.height = totalHeight
   }

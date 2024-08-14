@@ -10,6 +10,13 @@ import part2 from './images/part2.png'
 import part3 from './images/part3.png'
 import part4 from './images/part4.png'
 import part5 from './images/part5.png'
+import part6 from './images/part6.png'
+import part7 from './images/part7.png'
+import part8 from './images/part8.png'
+import part9 from './images/part9.png'
+import part10 from './images/part10.png'
+import part11 from './images/part11.png'
+import part12 from './images/part12.png'
 import Data from "./Data";
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -25,12 +32,13 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 let heights = [4, 6, 4, 8, 4]
 let heightMultiplier = 0.5
-let images = [part1, part2, part3, part4, part5]
+let images = [part1, part2, part3, part4, part5, part6, part7, part8, part9, part10, part11, part12]
 let widths = ['50%', '50%', '50%', '100%', '100%']
 let containerWidth = 200
 let containerHeight = 850
 let buttonArrayHeight = 75
 var showcaseLayout = null
+var maxIndex = -1
 
 export default class ShowcaseLayout extends React.Component {
   constructor(props) {
@@ -121,6 +129,7 @@ export default class ShowcaseLayout extends React.Component {
   static removeAtIndex(index, showcaseLayout) {
     if (index != -1) {
       Data.types.splice(index, 1)
+      Data.calculateHeight()
       showcaseLayout.setState({
         layouts: { lg: generateLayout() }
       });
@@ -146,32 +155,30 @@ export default class ShowcaseLayout extends React.Component {
   generateDOM(showcaseLayout) {
     return _.map(this.state.layouts.lg, function (l, i) {
       return (
-        <div key={i} className={l.static ? "static" : ""} style={{ overflow: 'hidden' }}>
-          {l.static ? (
-            <span
-              className="text"
-              title="This item is static and cannot be removed or resized."
-            >
-              Static - {i}
-            </span>
-          ) : (
-
+        <div key={i} style={{ overflow: 'hidden', background: i == maxIndex ? 'black' : 'white' }}>
             <div style={{ display: 'grid', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
+            {i != maxIndex ? <img src={!l.static ? images[Math.abs(Data.types[i]) - 1] : i == maxIndex - 1 ? images[6] : i == maxIndex - 2 && Data.height % 10 == 0 ? images[7] : i == maxIndex - 2 ? images[8] : i == Data.types.length ? images[10] : images[9]} draggable={false} width={widths[Math.abs(Data.types[i]) - 1]} height={86 * heightMultiplier * heights[Math.abs(Data.types[i]) - 1] / 2} alt={"Part " + Data.types[i]} style={{ gridRow: 1, gridColumn: 1 }} /> : <></>}
+            {!l.static ? 
+            <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
+              <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>x</button>
+              <button onClick={() => ShowcaseLayout.flipAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>{Data.types[i] > 0 ? 'L' : 'R'}</button>
+            </div>
+            : <></>}
+          </div>
+
+
+            {/* <div style={{ display: 'grid', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
               <img src={images[Math.abs(Data.types[i]) - 1]} draggable={false} width={widths[Math.abs(Data.types[i]) - 1]} height={86 * heightMultiplier * heights[Math.abs(Data.types[i]) - 1] / 2} alt={"Part " + Data.types[i]} style={{ gridRow: 1, gridColumn: 1 }} />
               <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
                 <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>x</button>
                 <button onClick={() => ShowcaseLayout.flipAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>{Data.types[i] > 0 ? 'L' : 'R'}</button>
               </div>
+            </div> */}
 
-            </div>
 
+            
 
-            // <span className="text">
-            //   <img src={part1} width={100} height={100} alt="Part 1"/>
-            //   {/* <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)}>Remove</button> */}
-            // </span>
-
-          )}
+          
         </div>
       );
     });
@@ -200,12 +207,12 @@ export default class ShowcaseLayout extends React.Component {
   }
 
   onNewLayout(type) {
-    Data.calculateHeight()
     if (type === -1) {
       Data.types = []
     } else {
       Data.types[Data.types.length] = type
     }
+    Data.calculateHeight()
     this.setState({
       layouts: { lg: generateLayout() }
     });
@@ -440,30 +447,38 @@ function HeightInput() {
 }
 
 function generateLayout() {
-  return _.map(_.range(0, Data.types.length + Math.floor(Data.height / Data.typeHeights[3])), function (item, i) {
+  let size = parseInt(Data.types.length + 3 + Math.floor(Data.height - (Data.height % 10 == 0 ? 10 : 15)) / 10)
+  maxIndex = size
+  return _.map(_.range(0, size + 1), function (item, i) {
     console.log(i)
       if (i < Data.types.length) {
-        var y = heights[Math.abs(Data.types[i]) - 1] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
+        var height = heights[Math.abs(Data.types[i]) - 1] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
         return {
           x: 0,
-          y: i,
+          y: i + 10,
           w: 1,
-          h: y,
+          h: height,
           i: i.toString(),
           static: false,
         }
       } else {
         //var y = heights[3] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
-        var y = heights[Math.abs(3)] * heightMultiplier
+        var height = 0
+        if (i == size || i == size - 1 || i == Data.types.length) {
+          height = (heights[0] / 2) * heightMultiplier
+        } else if (i == size - 2) {
+          height = (heights[Data.height % 10 == 0 ? 0 : 1] - (heights[0] / 2)) * heightMultiplier
+        } else {
+          height = heights[0] * heightMultiplier
+        }
         return {
-          x: 1,
-          y: 0,
+          x: i == size ? 0 : 1,
+          y: i == size ? 0 : i == Data.types.length ? 0 : i < size - 2 ? 1 : (size - (Data.types.length + 2)) * heights[0] * heightMultiplier - heights[0] * heightMultiplier / 2 + (i == size - 1 ? (Data.height % 10 == 0 ? 1 : 2) : 0),
           w: 1,
-          h: y,
+          h: height,
           i: i.toString(),
           static: true,
         };
       }
-      
   });
 }
