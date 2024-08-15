@@ -6,23 +6,33 @@ export default class Data {
   static typeHeights = [10, 15, 10, 20, 10]
   static totalPrice = 0
   static globalLayout = []
-  static height = 65
+  static showcaseLayout = null
+  static height = 0
   static counter = 0
+  static exampleLayout = null
+  static canUpdate = true
+  static lastCall = 0
+  static millisecondsBetween = 25
+
   static updateArray() {
     Data.typesUpdated = []
     var min = Number.MIN_SAFE_INTEGER
     var min2 = Number.MAX_SAFE_INTEGER
     var index = -10
     var foundNew = true
+    var wrongSide = false
     console.log("happening")
     console.log(Data.globalLayout)
     while (foundNew) {
       foundNew = false
-      Data.globalLayout.map(function(l) {
+      Data.exampleLayout.state.layout.map(function(l) {
         if (l.x == 0 && l.static == false && l.y > min && l.y < min2) {
+          console.log("i: " + l.i + " y:" + l.y)
           min2 = l.y
           index = parseInt(l.i)
           foundNew = true
+        } else if (l.x == 1 && l.static == false) {
+          wrongSide = true
         }
       });
       if (foundNew) {
@@ -31,9 +41,49 @@ export default class Data {
         min2 = Number.MAX_SAFE_INTEGER
       }
     }
-    console.log(Data.typesUpdated)
     console.log(Data.counter)
     Data.counter++
+    // if (updates < 2) {
+    //   Data.updateArray(++updates)
+    // }
+  }
+
+  static updateOriginal() {
+    // if (Date.now() - Data.lastCall >= Data.millisecondsBetween)
+    
+    // Data.showcaseLayout.externalUpdate()
+
+
+
+
+    // var arraysEqual = true
+    // for (let i = 0; i < Data.types.length; i++) {
+    //   if (Data.types[i] !== Data.typesUpdated[i]) {
+    //     arraysEqual = false
+    //   }
+    //   //Data.types[i] = Data.typesUpdated[i]
+    // }
+
+    // console.log(Data.typesUpdated)
+    // console.log(Data.types)
+
+    // //arraysEqual = false
+
+    // if (!arraysEqual && Data.canUpdate) {
+    //   for (let i = 0; i < Data.typesUpdated.length; i++) {
+    //     Data.types[i] = Data.typesUpdated[i] * -1 * -1
+    //   }
+    //   Data.canUpdate = false;
+    //   console.log("updating...")
+    //   if (Data.showcaseLayout != null) {  
+    //     Data.showcaseLayout.externalUpdate()
+    //   }
+    //}
+
+    // if (wrongSide) {
+    //   // Data.showcaseLayout.externalUpdate()
+      
+    // }
   }
 
 

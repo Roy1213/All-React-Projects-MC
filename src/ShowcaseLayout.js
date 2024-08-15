@@ -39,6 +39,7 @@ let containerHeight = 850
 let buttonArrayHeight = 75
 var showcaseLayout = null
 var maxIndex = -1
+var canChange = false
 
 export default class ShowcaseLayout extends React.Component {
   constructor(props) {
@@ -53,7 +54,8 @@ export default class ShowcaseLayout extends React.Component {
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
     this.onCompactTypeChange = this.onCompactTypeChange.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
-    this.onNewLayout = this.onNewLayout.bind(this);
+    Data.showcaseLayout = this
+    //this.onNewLayout = this.onNewLayout.bind(this);
   }
 
   buttonStyle = {
@@ -80,6 +82,12 @@ export default class ShowcaseLayout extends React.Component {
     return USDollar.format(Data.totalPrice).toString()
   }
 
+  externalUpdate() {
+    this.setState({
+      layouts: { lg: generateLayout() }
+    });
+  }
+
   generateContent = () => {
     let typesNum = [0, 0, 0, 0, 0]
     Data.totalPrice = 0
@@ -96,7 +104,7 @@ export default class ShowcaseLayout extends React.Component {
           paddingLeft: 10,
           paddingRight: 10
         }}>
-          <p>T{i + 1}: </p>  <p>{Data.typeNames[i]}</p> <p>{typesNum[i]}</p> <p><Button onClick={() => this.onNewLayout(i + 1)} style={this.buttonStyle}>+</Button></p><p><Button onClick={() => ShowcaseLayout.removeType(i + 1, this)} style={this.buttonStyle}>-</Button></p>
+          <p>T{i + 1}: </p>  <p>{Data.typeNames[i]}</p> <p>{typesNum[i]}</p> <p><Button onClick={() => this.addPart(i + 1)} style={this.buttonStyle}>+</Button></p><p><Button onClick={() => ShowcaseLayout.removeType(i + 1, this)} style={this.buttonStyle}>-</Button></p>
         </div>)
     }
     rows.push(
@@ -202,29 +210,46 @@ export default class ShowcaseLayout extends React.Component {
   onLayoutChange(layout, layouts) {
     this.props.onLayoutChange(layout, layouts);
     showcaseLayout = this
-    //Data.globalLayout = layout
-    //Data.updateArray()
+    // if (canChange) {
+      
+    //   showcaseLayout.setState({
+    //     layouts: { lg: generateLayout() }
+    //   });
+    //   canChange = false
+    // }
   }
 
-  onNewLayout(type) {
+  // onNewLayout(type) {
+  //   if (type === -1) {
+  //     Data.types = []
+  //   } else {
+  //     Data.types[Data.types.length] = type
+  //   }
+  //   Data.calculateHeight()
+  //   this.setState({
+  //     layouts: { lg: generateLayout() }
+  //   });
+  // }
+
+  addPart(type) {
     if (type === -1) {
       Data.types = []
     } else {
       Data.types[Data.types.length] = type
     }
     Data.calculateHeight()
-    this.setState({
+    //Data.updateArray()
+    showcaseLayout.setState({
       layouts: { lg: generateLayout() }
     });
   }
 
 
 
-  // onDragStop = () => {
-  //   console.log("howdy hello world")
-  //   //this.setState({ isDragging: false, height: 10 });
-
-  // };
+  onDragStop = () => {
+    Data.canUpdate = true
+    console.log("howdy hello world")
+  };
 
   dragging = () => {
     console.log("howdy world")
@@ -270,7 +295,7 @@ export default class ShowcaseLayout extends React.Component {
           }}>
             {/* <Button onClick={() => this.onNewLayout(5)} style={this.buttonStyle}>Add Type 5</Button> */}
             {/* <Remote/> */}
-            <Button onClick={() => this.onNewLayout(-1)} style={this.buttonStyle}>Clear</Button>
+            <Button onClick={() => this.addPart(-1)} style={this.buttonStyle}>Clear</Button>
           </div>
           <div style={{
             display: 'flex',
@@ -395,7 +420,7 @@ function HeightInput() {
     showcaseLayout.setState({
       layouts: { lg: generateLayout() }
     });
-    generateLayout()
+    //generateLayout()
     
   }
 
@@ -447,6 +472,9 @@ function HeightInput() {
 }
 
 function generateLayout() {
+
+  console.log(Data.typesUpdated)
+  console.log(Data.types)
   let size = parseInt(Data.types.length + 3 + Math.floor(Data.height - (Data.height % 10 == 0 ? 10 : 15)) / 10)
   maxIndex = size
   return _.map(_.range(0, size + 1), function (item, i) {

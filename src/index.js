@@ -26,6 +26,7 @@ class ExampleLayout extends React.Component {
   constructor(props) {
     super(props);
     this.state = { layout: [] };
+    Data.exampleLayout = this
     this.onLayoutChange = this.onLayoutChange.bind(this);
   }
 
@@ -51,8 +52,10 @@ class ExampleLayout extends React.Component {
       <div>
         <br/>
         <br/>
+        {/* {this.stringifyLayout()} */}
         {Data.updateArray()}
         <ShowcaseLayout onLayoutChange={this.onLayoutChange}/>
+        {/* {Data.updateOriginal()} */}
       </div>
     );
   }
