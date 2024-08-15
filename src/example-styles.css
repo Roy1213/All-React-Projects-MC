@@ -44,8 +44,8 @@ body {
   }
   .react-grid-item:not(.react-grid-placeholder) {
     background: white;
-    border: 1px solid black;
-    border-radius: 10px;
+    /* border: 2px solid black; */
+    border-radius: 5px;
   }
   .react-grid-item.resizing {
     opacity: 0.9;
@@ -109,7 +109,7 @@ body {
     opacity: 0.25;
     transition-duration: 100ms;
     z-index: 2;
-    border-radius: 10px;
+    border-radius: 5px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;

@@ -33,7 +33,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 let heights = [4, 6, 4, 8, 4]
 let heightMultiplier = 0.5
 let images = [part1, part2, part3, part4, part5, part6, part7, part8, part9, part10, part11, part12]
-let widths = ['50%', '50%', '50%', '100%', '100%']
+let widths = ['50%', '50%', '50%', '100%', '100%', '100%']
 let containerWidth = 200
 let containerHeight = 850
 let buttonArrayHeight = 75
@@ -157,7 +157,7 @@ export default class ShowcaseLayout extends React.Component {
       return (
         <div key={i} style={{ overflow: 'hidden', background: i == maxIndex ? 'black' : 'white' }}>
             <div style={{ display: 'grid', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
-            {i != maxIndex ? <img src={!l.static ? images[Math.abs(Data.types[i]) - 1] : i == maxIndex - 1 ? images[6] : i == maxIndex - 2 && Data.height % 10 == 0 ? images[7] : i == maxIndex - 2 ? images[8] : i == Data.types.length ? images[10] : images[9]} draggable={false} width={widths[Math.abs(Data.types[i]) - 1]} height={86 * heightMultiplier * heights[Math.abs(Data.types[i]) - 1] / 2} alt={"Part " + Data.types[i]} style={{ gridRow: 1, gridColumn: 1 }} /> : <></>}
+            {i != maxIndex ? <img src={!l.static ? images[Math.abs(Data.types[i]) - 1] : i == maxIndex - 1 ? images[6 - 1] : i == maxIndex - 2 && Data.height % 10 == 0 ? images[7 - 1] : i == maxIndex - 2 ? images[8 - 1] : i == Data.types.length ? images[10 - 1] : images[9 - 1]} draggable={false} width={i < Data.types.length ? widths[Math.abs(Data.types[i]) - 1] : widths[widths.length - 1]} height={i < Data.types.length ? 86 * heightMultiplier * heights[Math.abs(Data.types[i]) - 1] / 2 : '75%'} alt={"Part " + Data.types[i]} style={{ gridRow: 1, gridColumn: 1 }} /> : <></>}
             {!l.static ? 
             <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
               <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>x</button>
@@ -279,7 +279,7 @@ export default class ShowcaseLayout extends React.Component {
             {Data.generateWarnings()}
           </div>
         </div>
-        <div style={{ width: containerWidth, maxHeight: containerHeight }}>
+        <div style={{ width: containerWidth * 0.8, maxHeight: containerHeight }}>
           {/* <div>
           Current Breakpoint: {this.state.currentBreakpoint} ({
             this.props.cols[this.state.currentBreakpoint]
@@ -474,7 +474,7 @@ function generateLayout() {
         return {
           x: i == size ? 0 : 1,
           y: i == size ? 0 : i == Data.types.length ? 0 : i < size - 2 ? 1 : (size - (Data.types.length + 2)) * heights[0] * heightMultiplier - heights[0] * heightMultiplier / 2 + (i == size - 1 ? (Data.height % 10 == 0 ? 1 : 2) : 0),
-          w: 1,
+          w: 0.5,
           h: height,
           i: i.toString(),
           static: true,
