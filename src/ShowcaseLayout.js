@@ -26,6 +26,8 @@ import { useState } from 'react';
 import FormControl from "@mui/material/FormControl";
 import Remote from "./Remote";
 import InputLabel from "@mui/material/InputLabel";
+import MenuItem from '@mui/material/MenuItem';
+import Select from "@mui/material/Select";
 import { Height } from "@mui/icons-material";
 // import { ViewColumn } from "@mui/icons-material";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -40,6 +42,7 @@ let buttonArrayHeight = 75
 var showcaseLayout = null
 var maxIndex = -1
 var canChange = false
+var headType = 0
 
 export default class ShowcaseLayout extends React.Component {
   constructor(props) {
@@ -164,18 +167,18 @@ export default class ShowcaseLayout extends React.Component {
     return _.map(this.state.layouts.lg, function (l, i) {
       return (
         <div key={i} style={{ overflow: 'hidden', background: i == maxIndex ? 'black' : 'white' }}>
-            <div style={{ display: 'grid', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
-            {i != maxIndex ? <img src={!l.static ? images[Math.abs(Data.types[i]) - 1] : i == maxIndex - 1 ? images[6 - 1] : i == maxIndex - 2 && Data.height % 10 == 0 ? images[7 - 1] : i == maxIndex - 2 ? images[8 - 1] : i == Data.types.length ? images[10 - 1] : images[9 - 1]} draggable={false} width={i < Data.types.length ? widths[Math.abs(Data.types[i]) - 1] : widths[widths.length - 1]} height={i < Data.types.length ? 86 * heightMultiplier * heights[Math.abs(Data.types[i]) - 1] / 2 : '75%'} alt={"Part " + Data.types[i]} style={{ gridRow: 1, gridColumn: 1 }} /> : <></>}
-            {!l.static ? 
-            <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
-              <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>x</button>
-              <button onClick={() => ShowcaseLayout.flipAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>{Data.types[i] > 0 ? 'L' : 'R'}</button>
-            </div>
-            : <></>}
+          <div style={{ display: 'grid', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
+            {i != maxIndex ? <img src={!l.static ? images[Math.abs(Data.types[i]) - 1] : i == maxIndex - 1 ? images[6 - 1] : i == maxIndex - 2 && Data.height % 10 == 0 ? images[7 - 1] : i == maxIndex - 2 ? images[8 - 1] : i == Data.types.length ? (headType == 0 ? images[10 - 1] : images[11 - 1]) : images[9 - 1]} draggable={false} width={i < Data.types.length ? widths[Math.abs(Data.types[i]) - 1] : widths[widths.length - 1]} height={i < Data.types.length ? 86 * heightMultiplier * heights[Math.abs(Data.types[i]) - 1] / 2 : '75%'} alt={"Part " + Data.types[i]} style={{ gridRow: 1, gridColumn: 1 }} /> : <></>}
+            {!l.static ?
+              <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
+                <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>x</button>
+                <button onClick={() => ShowcaseLayout.flipAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>{Data.types[i] > 0 ? 'L' : 'R'}</button>
+              </div>
+              : <></>}
           </div>
 
 
-            {/* <div style={{ display: 'grid', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
+          {/* <div style={{ display: 'grid', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
               <img src={images[Math.abs(Data.types[i]) - 1]} draggable={false} width={widths[Math.abs(Data.types[i]) - 1]} height={86 * heightMultiplier * heights[Math.abs(Data.types[i]) - 1] / 2} alt={"Part " + Data.types[i]} style={{ gridRow: 1, gridColumn: 1 }} />
               <div style={{ gridRow: 1, gridColumn: 1, display: 'flex', justifyContent: 'space-between', transform: Data.types[i] > 0 ? '' : 'rotateY(180deg)' }}>
                 <button onClick={() => ShowcaseLayout.removeAtIndex(i, showcaseLayout)} style={ShowcaseLayout.buttonStyle2}>x</button>
@@ -184,9 +187,9 @@ export default class ShowcaseLayout extends React.Component {
             </div> */}
 
 
-            
 
-          
+
+
         </div>
       );
     });
@@ -211,7 +214,7 @@ export default class ShowcaseLayout extends React.Component {
     this.props.onLayoutChange(layout, layouts);
     showcaseLayout = this
     // if (canChange) {
-      
+
     //   showcaseLayout.setState({
     //     layouts: { lg: generateLayout() }
     //   });
@@ -235,6 +238,7 @@ export default class ShowcaseLayout extends React.Component {
     if (type === -1) {
       Data.types = []
       Data.typesUpdated = []
+      Data.calculateHeight()
     } else {
       Data.types[Data.types.length] = type
     }
@@ -281,11 +285,12 @@ export default class ShowcaseLayout extends React.Component {
       }}>
         <div className="layoutJSON" style={{ overflowY: 'auto' }}>
 
-          <br/>
-          <HeightInput/>
-          <br/>
-          <br/>
-          <br/>
+          <br />
+          <HeightInput />
+          <br />
+          <HeadSelector />
+          <br />
+          <br />
 
           Type, Number, Quantity, Add, Remove
 
@@ -394,7 +399,7 @@ function HeightInput() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
-      event.preventDefault();
+    event.preventDefault();
   }
 
   const buttonStyle3 = {
@@ -408,35 +413,38 @@ function HeightInput() {
 
   const [val, setVal] = useState('')
   const handleChange = (event) => {
-      var value = event.target.value
-      var periodsFound = 0;
-      let periodsAllowed = 0;
-      let min = 0;
-      let max = 1000
+    var value = event.target.value
+    var periodsFound = 0;
+    let periodsAllowed = 0;
+    let min = 0;
+    let max = 1000
 
-      for (let i = 0; i < value.length; i++) {
-          if (value.substring(i, i + 1) === ".") {
-              periodsFound++
-          }
-          if (periodsFound > periodsAllowed || "0123456789.".indexOf(value.substring(i, i + 1)) === -1) {
-              value = value.substring(0, i) + value.substring(i + 1)
-              periodsFound--
-              i--
-          }
-          if (periodsFound === 1 && value.substring(i, i + 1) !== ".") {
-              value = value.substring(0, i + 1)
-          }
+    for (let i = 0; i < value.length; i++) {
+      if (value.substring(i, i + 1) === ".") {
+        periodsFound++
       }
-      if (parseFloat(value) > max) {
-          value = max
-      } else if (parseFloat(value) < min) {
-          value = min
+      if (periodsFound > periodsAllowed || "0123456789.".indexOf(value.substring(i, i + 1)) === -1) {
+        value = value.substring(0, i) + value.substring(i + 1)
+        periodsFound--
+        i--
       }
-      setVal(value)
+      if (periodsFound === 1 && value.substring(i, i + 1) !== ".") {
+        value = value.substring(0, i + 1)
+      }
+    }
+    if (parseFloat(value) > max) {
+      value = max
+    } else if (parseFloat(value) < min) {
+      value = min
+    }
+    setVal(value)
   };
 
   const pushFormData = () => {
     let value = Math.ceil(val / 5.0) * 5
+    if (value < 10) {
+      value = 10
+    }
     setVal(value)
     Data.height = value
     Data.createBuild()
@@ -444,53 +452,116 @@ function HeightInput() {
       layouts: { lg: generateLayout() }
     });
     //generateLayout()
-    
   }
 
   return (
-      <Box sx={{ display: 'flex'}}>
-          <div style={{display: 'flex', justifyContent: 'space-between', minWidth: '100%'}}> 
-              <FormControl sx={{ width: '22ch' }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password" style={{ color: 'white' }}>Discharge Height</InputLabel>
-                  <OutlinedInput
-                      value={val}
-                      autoComplete='off'
-                      autoCapitalize='off'
-                      label='Discharge Height'
-                      sx={{
-                          //height: '50px',
-                          color: 'white',
-                          //minWidth: 300,
-                          '.MuiOutlinedInput-notchedOutline': {
-                              borderColor: 'white',
-                          },
-                          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                              border: '2px solid rgb(134, 38, 51)'
-                          },
-                          '&:hover .MuiOutlinedInput-notchedOutline': {
-                              border: '3px solid rgb(134, 38, 51)'
-                          },
-                          '.MuiSvgIcon-root ': {
-                              fill: "white !important",
-                          },
-                      }}
-                      onChange={handleChange}
-                      id="outlined-adornment-weight"
-                      endAdornment={<InputAdornment position="middle"><p style={{
-                          color: 'white'
-                      }}>ft</p></InputAdornment>}
-                      aria-describedby="outlined-weight-helper-text"
-                      inputProps={{
-                          'aria-label': 'weight',
-                      }}
-                  />
-                  {/* <FormHelperText id="outlined-weight-helper-text" style={{
+    <Box sx={{ display: 'flex' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', minWidth: '100%' }}>
+        <FormControl sx={{ width: '22ch' }} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password" style={{ color: 'white' }}>Discharge Height</InputLabel>
+          <OutlinedInput
+            value={val}
+            autoComplete='off'
+            autoCapitalize='off'
+            label='Discharge Height'
+            sx={{
+              //height: '50px',
+              color: 'white',
+              //minWidth: 300,
+              '.MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                border: '2px solid rgb(134, 38, 51)'
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                border: '3px solid rgb(134, 38, 51)'
+              },
+              '.MuiSvgIcon-root ': {
+                fill: "white !important",
+              },
+            }}
+            onChange={handleChange}
+            id="outlined-adornment-weight"
+            endAdornment={<InputAdornment position="middle"><p style={{
+              color: 'white'
+            }}>ft</p></InputAdornment>}
+            aria-describedby="outlined-weight-helper-text"
+            inputProps={{
+              'aria-label': 'weight',
+            }}
+          />
+          {/* <FormHelperText id="outlined-weight-helper-text" style={{
                       color: 'white', minWidth: '150px'
                   }}>{""}</FormHelperText> */}
-              </FormControl>
-              <Button onClick={() => pushFormData()} style={buttonStyle3}>Enter</Button>
-          </div>
-      </Box>
+        </FormControl>
+        <Button onClick={() => pushFormData()} style={buttonStyle3}>Enter</Button>
+      </div>
+    </Box>
+  );
+}
+
+function HeadSelector() {
+  const [val, setVal] = React.useState("");
+
+  const handleChange = (event) => {
+    setVal(event.target.value);
+    headType = event.target.value
+    showcaseLayout.setState({
+      layouts: { lg: generateLayout() }
+    });
+    //generateLayout()
+
+  };
+
+  return (
+    <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label" style={{ color: 'white' }}>Head Platform Type</InputLabel>
+        <Select
+          sx={{
+            color: 'white',
+            minWidth: 155,
+            '.MuiOutlinedInput-notchedOutline': {
+              borderColor: 'white',
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              border: '2px solid rgb(134, 38, 51)'
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              border: '3px solid rgb(134, 38, 51)'
+            },
+            '.MuiSvgIcon-root ': {
+              fill: "white !important",
+            },
+
+          }}
+          MenuProps={{
+            PaperProps: {
+              sx: {
+                color: 'white',
+                backgroundColor: 'rgb(35, 35, 35)',
+                "& .MuiMenuItem-root.Mui-selected": {
+                  backgroundColor: "rgb(134, 38, 51)"
+                },
+                "& .MuiMenuItem-root:hover": {
+                  backgroundColor: "rgb(50, 50, 50)"
+                },
+                "& .MuiMenuItem-root.Mui-selected:hover": {
+                  backgroundColor: "rgb(149, 53, 66)"
+                }
+              }
+            }
+          }}
+          value={val}
+          label="Head Platform Type"
+          onChange={handleChange}
+        >
+          <MenuItem value={0}>Head Without Platform</MenuItem>
+          <MenuItem value={1}>Head With Platform</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
   );
 }
 
@@ -508,34 +579,34 @@ function generateLayout() {
   maxIndex = size
   return _.map(_.range(0, size + 1), function (item, i) {
     //console.log(i)
-      if (i < Data.types.length) {
-        var height = heights[Math.abs(Data.types[i]) - 1] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
-        return {
-          x: 0,
-          y: i + 10,
-          w: 1,
-          h: height + (Math.ceil(Math.random() * 1000000) + 1) * 0.0000000001,
-          i: i.toString(),
-          static: false,
-        }
-      } else {
-        //var y = heights[3] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
-        var height = 0
-        if (i == size || i == size - 1 || i == Data.types.length) {
-          height = (heights[0] / 2) * heightMultiplier
-        } else if (i == size - 2) {
-          height = (heights[Data.height % 10 == 0 ? 0 : 1] - (heights[0] / 2)) * heightMultiplier
-        } else {
-          height = heights[0] * heightMultiplier
-        }
-        return {
-          x: i == size ? 0 : 1,
-          y: i == size ? 0 : i == Data.types.length ? 0 : i < size - 2 ? 1 : (size - (Data.types.length + 2)) * heights[0] * heightMultiplier - heights[0] * heightMultiplier / 2 + (i == size - 1 ? (Data.height % 10 == 0 ? 1 : 2) : 0),
-          w: 0.5,
-          h: height,
-          i: i.toString(),
-          static: true,
-        };
+    if (i < Data.types.length) {
+      var height = heights[Math.abs(Data.types[i]) - 1] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
+      return {
+        x: 0,
+        y: i + 10,
+        w: 1,
+        h: height + (Math.ceil(Math.random() * 1000000) + 1) * 0.0000000001,
+        i: i.toString(),
+        static: false,
       }
+    } else {
+      //var y = heights[3] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
+      var height = 0
+      if (i == size || i == size - 1 || i == Data.types.length) {
+        height = (heights[0] / 2) * heightMultiplier
+      } else if (i == size - 2) {
+        height = (heights[Data.height % 10 == 0 ? 0 : 1] - (heights[0] / 2)) * heightMultiplier
+      } else {
+        height = heights[0] * heightMultiplier
+      }
+      return {
+        x: i == size ? 0 : 1,
+        y: i == size ? 0 : i == Data.types.length ? 0 : i < size - 2 ? 1 : (size - (Data.types.length + 2)) * heights[0] * heightMultiplier - heights[0] * heightMultiplier / 2 + (i == size - 1 ? (Data.height % 10 == 0 ? 1 : 2) : 0),
+        w: 0.5,
+        h: height,
+        i: i.toString(),
+        static: true,
+      };
+    }
   });
 }
