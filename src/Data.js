@@ -171,6 +171,7 @@ export default class Data {
 
   static generateWarnings = () => {
     var buildWarning = false
+    var buildError = false
     for (let i = 0; i < Data.typesUpdated.length; i++) {
       var type = Data.typesUpdated[i]
       if (Math.abs(type) == 4) {
@@ -178,12 +179,29 @@ export default class Data {
       }
       if (i != Data.typesUpdated.length - 1) {
         if (!(type < 0 && Data.typesUpdated[i + 1] < 0 || type > 0 && Data.typesUpdated[i + 1] > 0)) {
-          buildWarning = true;
+          buildError = true;
           break;
         }
       }
     }
-    return <p style={{color: buildWarning ? 'red' : 'lime'}}>{buildWarning ? 'Warning: Structure is Unstable' : 'All Good!'}</p>
+    
+    var feetBetween = 0
+    for (let i = 0; i < Data.typesUpdated.length; i++) {
+      var absType = Math.abs(Data.typesUpdated[i])
+      if (absType != 4) {
+        feetBetween += Data.typeHeights[absType - 1]
+      } else {
+        feetBetween += 10
+      }
+      if (feetBetween > 30) {
+        buildWarning = true;
+        break;
+      }
+      if (absType == 4) {
+        feetBetween = 10
+      }
+    }
+    return <p style={{color: buildError ? 'red' : buildWarning ? 'yellow' : 'lime'}}>{buildError ? 'WARNING: Structure is unstable' : buildWarning ? 'WARNING: Structure violates OSHA' : 'All Good!'}</p>
   }
 
   static calculateHeight() {
