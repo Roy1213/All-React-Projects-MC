@@ -510,7 +510,7 @@ function generateLayout() {
           x: 0,
           y: i + 10,
           w: 1,
-          h: height + (Math.ceil(Math.random() * 100) + 1) * 0.000001,
+          h: height + (Math.ceil(Math.random() * 1000000) + 1) * 0.0000000001,
           i: i.toString(),
           static: false,
         }
