@@ -1,13 +1,13 @@
 export default class Data {
-  static types = [1, 2, 3, 4, 5]
-  static typesUpdated = [1, 2, 3, 4, 5]
+  static types = [1, 3, 3, 3]
+  static typesUpdated = [1, 3, 3, 3]
   static typeNames = ['BELC-05-0100', 'BELC-10-0100', 'BELC-10-0000', 'BELC-20-0200', 'BELC-10-0201']
   static typePrices = [1300, 1800, 1300, 4100, 2900]
   static typeHeights = [10, 15, 10, 20, 10]
   static totalPrice = 0
   static globalLayout = []
   static showcaseLayout = null
-  static height = 0
+  static height = 40
   static counter = 0
   static exampleLayout = null
   static canUpdate = true
@@ -46,6 +46,13 @@ export default class Data {
         min2 = Number.MAX_SAFE_INTEGER
       }
     }
+
+    if (wrongSide) {
+      for (let i = 0; i < Data.types.length; i++) {
+        Data.typesUpdated[i] = Data.types[i]
+      }
+    }
+
     console.log(Data.counter)
     console.log(Data.typesUpdated)
     console.log(Data.types)
