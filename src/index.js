@@ -55,12 +55,13 @@ class ExampleLayout extends React.Component {
         {/* {this.stringifyLayout()} */}
         
 
-        {Data.updateArray()}
+        
         {/* {setTimeout(Data.updateOriginal, 1000)} */}
         {/* {Data.updateOriginal()} */}
         
         <ShowcaseLayout onLayoutChange={this.onLayoutChange}/>
-        {/* {Data.updateOriginal()} */}
+        {Data.updateArray()}
+        {setTimeout(Data.updateOriginal, 10)}
         
         {/* {Data.updateOriginal()} */}
       </div>

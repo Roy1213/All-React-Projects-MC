@@ -11,7 +11,7 @@ export default class Data {
   static counter = 0
   static exampleLayout = null
   static canUpdate = true
-  static canUpdateCount = 1
+  static canUpdateCount = 2
   static lastCall = 0
   static millisecondsBetween = 25
 
@@ -89,7 +89,13 @@ export default class Data {
 
   static updateOriginal() {
 
-    Data.updateOriginalHelper()
+    if (Data.canUpdateCount > 0) {
+      Data.canUpdateCount--
+      Data.updateOriginalHelper()
+    } else {
+      Data.canUpdateCount = 1
+    }
+    
     // Data.testing()
     // if (Data.showcaseLayout != null) {
     //   Data.showcaseLayout.externalUpdate()

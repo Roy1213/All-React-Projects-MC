@@ -245,11 +245,25 @@ export default class ShowcaseLayout extends React.Component {
     });
   }
 
+  static updateMainArray() {
+    for (let i = 0; i < Data.typesUpdated.length; i++) {
+      Data.types[i] = Data.typesUpdated[i]
+    }
+    if (showcaseLayout != null && canChange) {
+      canChange = false
+      showcaseLayout.setState({
+        layouts: { lg: generateLayout() }
+      });
+    }
+  }
+
 
 
   onDragStop = () => {
-    Data.canUpdate = true
+    //Data.canUpdate = true
     Data.canUpdateCount = 1
+    //canChange = true
+    this.forceUpdate()
     //setTimeout(Data.updateArray, 1000)
     //setTimeout(Data.updateOriginal, 2000)
     console.log("howdy hello world " + Data.counter)
@@ -306,6 +320,7 @@ export default class ShowcaseLayout extends React.Component {
             justifyContent: 'center'
           }}>
             {Data.generateWarnings()}
+            {/* {ShowcaseLayout.updateMainArray()} */}
           </div>
         </div>
         <div style={{ width: containerWidth * 0.8, maxHeight: containerHeight }}>
@@ -479,11 +494,11 @@ function generateLayout() {
   // for (let i = 0; i < Data.typesUpdated.length; i++) {
   //   Data.types[i] = Data.typesUpdated[i]
   // }
-  for (let i = 0; i < Data.typesUpdated.length; i++) {
-    Data.types[i] = Data.typesUpdated[i]
-  }
-  console.log(Data.typesUpdated)
-  console.log(Data.types)
+  // for (let i = 0; i < Data.typesUpdated.length; i++) {
+  //   Data.types[i] = Data.typesUpdated[i]
+  // }
+  // console.log(Data.typesUpdated)
+  // console.log(Data.types)
   console.log("generating")
   let size = parseInt(Data.types.length + 3 + Math.floor(Data.height - (Data.height % 10 == 0 ? 10 : 15)) / 10)
   maxIndex = size
@@ -495,7 +510,7 @@ function generateLayout() {
           x: 0,
           y: i + 10,
           w: 1,
-          h: height,
+          h: height + (Math.ceil(Math.random() * 100) + 1) * 0.000001,
           i: i.toString(),
           static: false,
         }
