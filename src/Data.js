@@ -11,10 +11,11 @@ export default class Data {
   static counter = 0
   static exampleLayout = null
   static canUpdate = true
+  static canUpdateCount = 1
   static lastCall = 0
   static millisecondsBetween = 25
 
-  static updateArray() {
+  static updateArray(exampleLayout) {
     Data.typesUpdated = []
     var min = Number.MIN_SAFE_INTEGER
     var min2 = Number.MAX_SAFE_INTEGER
@@ -25,9 +26,13 @@ export default class Data {
     console.log(Data.globalLayout)
     while (foundNew) {
       foundNew = false
-      Data.exampleLayout.state.layout.map(function(l) {
+      var exLayout = Data.exampleLayout
+      if (exampleLayout != null) {
+        exLayout = exampleLayout
+      }
+      exLayout.state.layout.map(function(l) {
         if (l.x == 0 && l.static == false && l.y > min && l.y < min2) {
-          console.log("i: " + l.i + " y:" + l.y)
+          //console.log("i: " + l.i + " y:" + l.y)
           min2 = l.y
           index = parseInt(l.i)
           foundNew = true
@@ -42,17 +47,81 @@ export default class Data {
       }
     }
     console.log(Data.counter)
+    console.log(Data.typesUpdated)
+    console.log(Data.types)
+    
     Data.counter++
+
+    //Data.updateOriginal()
     // if (updates < 2) {
     //   Data.updateArray(++updates)
     // }
+    //Data.updateOriginal()
+  }
+
+  static updateOriginalHelper() {
+    console.log("engaged " + Data.counter)
+    for (let i = 0; i < Data.typesUpdated.length; i++) {
+      Data.types[i] = Data.typesUpdated[i]
+    }
+    if (Data.showcaseLayout != null) {
+      Data.showcaseLayout.externalUpdate()
+    }
+    // if (Data.showcaseLayout != null) {
+    //   console.log("engagedEngaged " + Data.counter)
+    //   Data.showcaseLayout.externalUpdate()
+    //   Data.updateArray()
+    //   for (let i = 0; i < Data.typesUpdated.length; i++) {
+    //     Data.types[i] = Data.typesUpdated[i]
+    //   }
+    
+
+    //   console.log(Data.typesUpdated)
+    //   console.log(Data.types)
+    //   console.log(Data.counter)
+    //   // if (Data.exampleLayout != null) {
+    //   //   Data.exampleLayout.forceUpdate()
+    //   // }
+
+    // }
+    //console.log(Data.counter)
   }
 
   static updateOriginal() {
-    // if (Date.now() - Data.lastCall >= Data.millisecondsBetween)
-    
-    // Data.showcaseLayout.externalUpdate()
 
+    Data.updateOriginalHelper()
+    // Data.testing()
+    // if (Data.showcaseLayout != null) {
+    //   Data.showcaseLayout.externalUpdate()
+    // }
+
+
+
+    // // if (Date.now() - Data.lastCall >= Data.millisecondsBetween)
+
+    // // for (let i = 0; i < Data.typesUpdated.length; i++) {
+    // //   Data.types[i] = Data.typesUpdated[i]
+    // // }
+    // //console.log(Data.counter)
+    // if (Data.showcaseLayout != null) {
+    //   for (let i = 0; i < Data.typesUpdated.length; i++) {
+    //     Data.types[i] = Data.typesUpdated[i]
+    //   }
+    //   Data.showcaseLayout.externalUpdate()
+    // }
+    
+
+    // if (Data.showcaseLayout != null && Data.canUpdate) {
+    //   Data.canUpdateCount--
+    //   if (Data.canUpdateCount == 0) {
+    //     Data.canUpdate = false
+    //   }
+    //   for (let i = 0; i < Data.typesUpdated.length; i++) {
+    //     Data.types[i] = Data.typesUpdated[i] * -1 * -1
+    //   }
+    //   Data.showcaseLayout.externalUpdate()
+    // }
+    
 
 
 

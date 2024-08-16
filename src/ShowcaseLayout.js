@@ -234,6 +234,7 @@ export default class ShowcaseLayout extends React.Component {
   addPart(type) {
     if (type === -1) {
       Data.types = []
+      Data.typesUpdated = []
     } else {
       Data.types[Data.types.length] = type
     }
@@ -248,7 +249,10 @@ export default class ShowcaseLayout extends React.Component {
 
   onDragStop = () => {
     Data.canUpdate = true
-    console.log("howdy hello world")
+    Data.canUpdateCount = 1
+    //setTimeout(Data.updateArray, 1000)
+    //setTimeout(Data.updateOriginal, 2000)
+    console.log("howdy hello world " + Data.counter)
   };
 
   dragging = () => {
@@ -472,13 +476,19 @@ function HeightInput() {
 }
 
 function generateLayout() {
-
+  // for (let i = 0; i < Data.typesUpdated.length; i++) {
+  //   Data.types[i] = Data.typesUpdated[i]
+  // }
+  for (let i = 0; i < Data.typesUpdated.length; i++) {
+    Data.types[i] = Data.typesUpdated[i]
+  }
   console.log(Data.typesUpdated)
   console.log(Data.types)
+  console.log("generating")
   let size = parseInt(Data.types.length + 3 + Math.floor(Data.height - (Data.height % 10 == 0 ? 10 : 15)) / 10)
   maxIndex = size
   return _.map(_.range(0, size + 1), function (item, i) {
-    console.log(i)
+    //console.log(i)
       if (i < Data.types.length) {
         var height = heights[Math.abs(Data.types[i]) - 1] * heightMultiplier//Math.ceil(Math.random() * 4) + 1;
         return {
