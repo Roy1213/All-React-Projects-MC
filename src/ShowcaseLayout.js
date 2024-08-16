@@ -1,10 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import _ from "lodash";
-import { Responsive, WidthProvider } from "react-grid-layout";
-import './example-styles.css';
-import './Scrollbar.css';
-import Button from '@mui/material/Button';
+import React from "react"
+import { useState } from 'react'
+import PropTypes from "prop-types"
+import { Responsive, WidthProvider } from "react-grid-layout"
+import './example-styles.css'
+import './Scrollbar.css'
+import Data from "./Data"
+import _ from "lodash"
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import part1 from './images/part1.png'
 import part2 from './images/part2.png'
 import part3 from './images/part3.png'
@@ -17,19 +20,14 @@ import part9 from './images/part9.png'
 import part10 from './images/part10.png'
 import part11 from './images/part11.png'
 import part12 from './images/part12.png'
-import Data from "./Data";
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
-import { useState } from 'react';
-import FormControl from "@mui/material/FormControl";
-import Remote from "./Remote";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from '@mui/material/MenuItem';
-import Select from "@mui/material/Select";
-import { Height } from "@mui/icons-material";
-// import { ViewColumn } from "@mui/icons-material";
+import OutlinedInput from '@mui/material/OutlinedInput'
+import InputAdornment from '@mui/material/InputAdornment'
+import FormControl from "@mui/material/FormControl"
+import InputLabel from "@mui/material/InputLabel"
+import MenuItem from '@mui/material/MenuItem'
+import Select from "@mui/material/Select"
+
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 let heights = [4, 6, 4, 8, 4]
