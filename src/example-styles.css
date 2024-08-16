@@ -106,8 +106,8 @@ body {
   
   .react-grid-item.react-grid-placeholder {
     background: rgb(75, 75, 75);
-    opacity: 1;
-    /* transition-duration: 100ms; */
+    opacity: 0.25;
+    transition-duration: 100ms;
     z-index: 2;
     border-radius: 5px;
     -webkit-user-select: none;

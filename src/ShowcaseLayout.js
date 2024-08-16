@@ -137,7 +137,7 @@ export default class ShowcaseLayout extends React.Component {
   static removeAtIndex(index, showcaseLayout) {
     if (index != -1) {
       Data.types.splice(index, 1)
-      Data.calculateHeight()
+      //Data.calculateHeight()
       showcaseLayout.setState({
         layouts: { lg: generateLayout() }
       });
@@ -238,7 +238,7 @@ export default class ShowcaseLayout extends React.Component {
     } else {
       Data.types[Data.types.length] = type
     }
-    Data.calculateHeight()
+    //Data.calculateHeight()
     //Data.updateArray()
     showcaseLayout.setState({
       layouts: { lg: generateLayout() }
@@ -280,6 +280,13 @@ export default class ShowcaseLayout extends React.Component {
         justifyContent: 'center', /*overflow: 'hidden'*/ height: containerHeight
       }}>
         <div className="layoutJSON" style={{ overflowY: 'auto' }}>
+
+          <br/>
+          <HeightInput/>
+          <br/>
+          <br/>
+          <br/>
+
           Type, Number, Quantity, Add, Remove
 
           {/* <p>{"Height: " + Data.height}</p> */}
@@ -301,11 +308,6 @@ export default class ShowcaseLayout extends React.Component {
             <Button onClick={() => this.onNewLayout(3)} style={this.buttonStyle}>Add Type 3</Button>
             <Button onClick={() => this.onNewLayout(4)} style={this.buttonStyle}>Add Type 4</Button>
           </div> */}
-
-          <HeightInput/>
-          <br/>
-          <br/>
-          <br/>
 
           <div style={{
             display: 'flex',
@@ -434,7 +436,9 @@ function HeightInput() {
   };
 
   const pushFormData = () => {
-    Data.height = Math.ceil(val / 5.0) * 5
+    let value = Math.ceil(val / 5.0) * 5
+    setVal(value)
+    Data.height = value
     Data.createBuild()
     showcaseLayout.setState({
       layouts: { lg: generateLayout() }
@@ -446,13 +450,13 @@ function HeightInput() {
   return (
       <Box sx={{ display: 'flex'}}>
           <div style={{display: 'flex', justifyContent: 'space-between', minWidth: '100%'}}> 
-              <FormControl sx={{ width: '20ch' }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password" style={{ color: 'white' }}>Height Input</InputLabel>
+              <FormControl sx={{ width: '22ch' }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password" style={{ color: 'white' }}>Discharge Height</InputLabel>
                   <OutlinedInput
                       value={val}
                       autoComplete='off'
                       autoCapitalize='off'
-                      label='Height Input'
+                      label='Discharge Height'
                       sx={{
                           //height: '50px',
                           color: 'white',
